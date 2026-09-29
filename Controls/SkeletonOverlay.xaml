@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Grid
+    x:Class="HisabKitab.Controls.SkeletonOverlay"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    HorizontalOptions="Fill"
+    VerticalOptions="Fill"
+    BackgroundColor="{AppThemeBinding Light=#F5F7F0, Dark=#10140E}"
+    IsVisible="False"
+    IsEnabled="False"
+    InputTransparent="True"
+    ZIndex="50">
+
+    <Grid x:Name="SkeletonBody">
+
+        <!-- ================================================= -->
+        <!-- HOME SKELETON                                     -->
+        <!-- ================================================= -->
+
+        <ScrollView
+            x:Name="HomeSkeleton"
+            IsVisible="False">
+
+            <VerticalStackLayout
+                Padding="20,22,20,120"
+                Spacing="14">
+
+                <Border
+                    Style="{StaticResource SkeletonBar}"
+                    WidthRequest="105"
+                    HeightRequest="12"
+                    HorizontalOptions="Start" />
+
+                <Border
+                    Style="{StaticResource SkeletonBar}"
+                    WidthRequest="175"
+                    HeightRequest="26"
+                    HorizontalOptions="Start" />
+
+                <Border
+                    Style="{StaticResource SkeletonBar}"
+                    WidthRequest="225"
+                    HeightRequest="12"
+                    HorizontalOptions="Start" />
+
+                <Border
+                    Style="{StaticResource SkeletonHeroCard}"
+                    HeightRequest="92"
+                    Margin="0,8,0,8" />
+
+                <Border
+                    Style="{StaticResource SkeletonTitle}"
+                    WidthRequest="145"
+                    HeightRequest="18"
+                    HorizontalOptions="Start" />
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    RowDefinitions="110,110"
+                    ColumnSpacing="12"
+                    RowSpacing="12">
+
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource SkeletonCard}" />
+
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Style="{StaticResource SkeletonCard}" />
+
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource SkeletonCard}" />
+
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource SkeletonCard}" />
+
+                </Grid>
+
+                <Border
+                    Style="{StaticResource SkeletonTitle}"
+                    WidthRequest="135"
+                    HeightRequest="18"
+                    HorizontalOptions="Start"
+                    Margin="0,10,0,0" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="82" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="82" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+        <!-- ================================================= -->
+        <!-- STOCK SKELETON                                    -->
+        <!-- ================================================= -->
+
+        <Grid
+            x:Name="StockSkeleton"
+            IsVisible="False">
+
+            <Grid RowDefinitions="Auto,Auto,Auto,*">
+
+                <!-- Stock header -->
+                <Grid
+                    Grid.Row="0"
+                    Padding="20,20,20,12"
+                    ColumnDefinitions="*,48"
+                    ColumnSpacing="10">
+
+                    <VerticalStackLayout Spacing="7">
+
+                        <Border
+                            Style="{StaticResource SkeletonTitle}"
+                            WidthRequest="105"
+                            HeightRequest="25"
+                            HorizontalOptions="Start" />
+
+                        <Border
+                            Style="{StaticResource SkeletonBar}"
+                            WidthRequest="220"
+                            HeightRequest="11"
+                            HorizontalOptions="Start" />
+
+                    </VerticalStackLayout>
+
+                    <Border
+                        Grid.Column="1"
+                        Style="{StaticResource SkeletonIcon}"
+                        WidthRequest="46"
+                        HeightRequest="46" />
+
+                </Grid>
+
+
+                <!-- Stock summary -->
+                <Border
+                    Grid.Row="1"
+                    Margin="20,4,20,12"
+                    Padding="14"
+                    Style="{StaticResource SkeletonSummaryCard}"
+                    HeightRequest="92">
+
+                    <Grid ColumnDefinitions="*,*,*">
+
+                        <VerticalStackLayout
+                            HorizontalOptions="Center"
+                            Spacing="8">
+
+                            <Border
+                                Style="{StaticResource SkeletonBar}"
+                                WidthRequest="55"
+                                HeightRequest="9" />
+
+                            <Border
+                                Style="{StaticResource SkeletonNumber}"
+                                WidthRequest="35"
+                                HeightRequest="22" />
+
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            HorizontalOptions="Center"
+                            Spacing="8">
+
+                            <Border
+                                Style="{StaticResource SkeletonBar}"
+                                WidthRequest="55"
+                                HeightRequest="9" />
+
+                            <Border
+                                Style="{StaticResource SkeletonNumber}"
+                                WidthRequest="28"
+                                HeightRequest="22" />
+
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout
+                            Grid.Column="2"
+                            HorizontalOptions="Center"
+                            Spacing="8">
+
+                            <Border
+                                Style="{StaticResource SkeletonBar}"
+                                WidthRequest="55"
+                                HeightRequest="9" />
+
+                            <Border
+                                Style="{StaticResource SkeletonNumber}"
+                                WidthRequest="38"
+                                HeightRequest="22" />
+
+                        </VerticalStackLayout>
+
+                    </Grid>
+                </Border>
+
+
+                <!-- Product heading -->
+                <Grid
+                    Grid.Row="2"
+                    Padding="20,2,20,10"
+                    ColumnDefinitions="*,40"
+                    ColumnSpacing="8">
+
+                    <VerticalStackLayout Spacing="6">
+                        <Border
+                            Style="{StaticResource SkeletonTitle}"
+                            WidthRequest="95"
+                            HeightRequest="17"
+                            HorizontalOptions="Start" />
+
+                        <Border
+                            Style="{StaticResource SkeletonBar}"
+                            WidthRequest="38"
+                            HeightRequest="9"
+                            HorizontalOptions="Start" />
+                    </VerticalStackLayout>
+
+                    <Border
+                        Grid.Column="1"
+                        Style="{StaticResource SkeletonIcon}"
+                        WidthRequest="36"
+                        HeightRequest="36" />
+
+                </Grid>
+
+
+                <!-- Product skeleton rows -->
+                <ScrollView
+                    Grid.Row="3">
+
+                    <VerticalStackLayout
+                        Padding="20,0,28,110"
+                        Spacing="10">
+
+                        <Border
+                            Style="{StaticResource SkeletonProductCard}"
+                            HeightRequest="82" />
+
+                        <Border
+                            Style="{StaticResource SkeletonProductCard}"
+                            HeightRequest="82" />
+
+                        <Border
+                            Style="{StaticResource SkeletonProductCard}"
+                            HeightRequest="82" />
+
+                        <Border
+                            Style="{StaticResource SkeletonProductCard}"
+                            HeightRequest="82" />
+
+                    </VerticalStackLayout>
+
+                </ScrollView>
+
+            </Grid>
+        </Grid>
+
+
+        <!-- ================================================= -->
+        <!-- LIST SKELETON                                      -->
+        <!-- ================================================= -->
+
+        <Grid
+            x:Name="ListSkeleton"
+            IsVisible="False">
+
+            <VerticalStackLayout
+                Padding="20,22,20,120"
+                Spacing="14">
+
+                <Grid ColumnDefinitions="*,48">
+
+                    <VerticalStackLayout Spacing="7">
+
+                        <Border
+                            Style="{StaticResource SkeletonTitle}"
+                            WidthRequest="125"
+                            HeightRequest="25"
+                            HorizontalOptions="Start" />
+
+                        <Border
+                            Style="{StaticResource SkeletonBar}"
+                            WidthRequest="215"
+                            HeightRequest="11"
+                            HorizontalOptions="Start" />
+
+                    </VerticalStackLayout>
+
+                    <Border
+                        Grid.Column="1"
+                        Style="{StaticResource SkeletonIcon}"
+                        WidthRequest="46"
+                        HeightRequest="46" />
+
+                </Grid>
+
+                <Border
+                    Style="{StaticResource SkeletonSearch}"
+                    HeightRequest="48" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="74" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="74" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="74" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="74" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="74" />
+
+            </VerticalStackLayout>
+        </Grid>
+
+
+        <!-- ================================================= -->
+        <!-- MORE / MASTER SKELETON                             -->
+        <!-- ================================================= -->
+
+        <Grid
+            x:Name="MoreSkeleton"
+            IsVisible="False">
+
+            <VerticalStackLayout
+                Padding="20,22,20,120"
+                Spacing="14">
+
+                <Border
+                    Style="{StaticResource SkeletonTitle}"
+                    WidthRequest="95"
+                    HeightRequest="26"
+                    HorizontalOptions="Start" />
+
+                <Border
+                    Style="{StaticResource SkeletonBar}"
+                    WidthRequest="190"
+                    HeightRequest="11"
+                    HorizontalOptions="Start" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="68" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="68" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="68" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="68" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="68" />
+
+            </VerticalStackLayout>
+        </Grid>
+
+
+        <!-- ================================================= -->
+        <!-- DETAIL SKELETON                                    -->
+        <!-- ================================================= -->
+
+        <Grid
+            x:Name="DetailSkeleton"
+            IsVisible="False">
+
+            <VerticalStackLayout
+                Padding="20,20,20,120"
+                Spacing="14">
+
+                <Grid ColumnDefinitions="44,*,44">
+
+                    <Border
+                        Style="{StaticResource SkeletonIcon}"
+                        WidthRequest="42"
+                        HeightRequest="42" />
+
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        Spacing="6"
+                        HorizontalOptions="Center">
+
+                        <Border
+                            Style="{StaticResource SkeletonTitle}"
+                            WidthRequest="105"
+                            HeightRequest="18" />
+
+                        <Border
+                            Style="{StaticResource SkeletonBar}"
+                            WidthRequest="165"
+                            HeightRequest="9" />
+
+                    </VerticalStackLayout>
+
+                </Grid>
+
+                <Border
+                    Style="{StaticResource SkeletonHeroCard}"
+                    HeightRequest="105" />
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="10">
+
+                    <Border
+                        Style="{StaticResource SkeletonButton}"
+                        HeightRequest="50" />
+
+                    <Border
+                        Grid.Column="1"
+                        Style="{StaticResource SkeletonButton}"
+                        HeightRequest="50" />
+
+                </Grid>
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="220" />
+
+                <Border
+                    Style="{StaticResource SkeletonWideCard}"
+                    HeightRequest="180" />
+
+            </VerticalStackLayout>
+        </Grid>
+
+
+        <!-- ================================================= -->
+        <!-- FORM SKELETON                                      -->
+        <!-- ================================================= -->
+
+        <Grid
+            x:Name="FormSkeleton"
+            IsVisible="False">
+
+            <ScrollView>
+
+                <VerticalStackLayout
+                    Padding="20,22,20,120"
+                    Spacing="14">
+
+                    <Border
+                        Style="{StaticResource SkeletonTitle}"
+                        WidthRequest="150"
+                        HeightRequest="26"
+                        HorizontalOptions="Start" />
+
+                    <Border
+                        Style="{StaticResource SkeletonBar}"
+                        WidthRequest="210"
+                        HeightRequest="11"
+                        HorizontalOptions="Start" />
+
+                    <Border
+                        Style="{StaticResource SkeletonField}"
+                        HeightRequest="70" />
+
+                    <Border
+                        Style="{StaticResource SkeletonField}"
+                        HeightRequest="70" />
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="10">
+
+                        <Border
+                            Style="{StaticResource SkeletonField}"
+                            HeightRequest="64" />
+
+                        <Border
+                            Grid.Column="1"
+                            Style="{StaticResource SkeletonField}"
+                            HeightRequest="64" />
+
+                    </Grid>
+
+                    <Border
+                        Style="{StaticResource SkeletonField}"
+                        HeightRequest="70" />
+
+                    <Border
+                        Style="{StaticResource SkeletonField}"
+                        HeightRequest="110" />
+
+                    <Border
+                        Style="{StaticResource SkeletonButton}"
+                        HeightRequest="54" />
+
+                </VerticalStackLayout>
+
+            </ScrollView>
+        </Grid>
+
+    </Grid>
+</Grid>

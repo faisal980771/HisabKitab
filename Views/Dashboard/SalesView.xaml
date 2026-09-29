@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="HisabKitab.Views.Dashboard.SalesView"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:HisabKitab.Controls"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+    <Grid>
+        <!-- LIST -->
+        <Grid x:Name="ListContent" IsVisible="True">
+            <RefreshView x:Name="SalesRefreshView" RefreshColor="{StaticResource PrimaryColor}" Refreshing="SalesRefreshView_Refreshing">
+                <ScrollView>
+                    <VerticalStackLayout Padding="20,22,20,150" Spacing="14">
+                        <Grid ColumnDefinitions="*,48,48" ColumnSpacing="8">
+                            <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                                <Label Text="Bills" FontSize="27" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                                <Label Text="Quotation, purchase and sales" FontSize="13" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                            </VerticalStackLayout>
+                            <Border x:Name="BillSearchButton" Grid.Column="1" WidthRequest="48" HeightRequest="48" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                                <Border.GestureRecognizers><TapGestureRecognizer Tapped="BillSearchButtonTapped" /></Border.GestureRecognizers>
+                                <Label Text="⌕" FontSize="25" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Border x:Name="ListTemplateButton" Grid.Column="2" WidthRequest="48" HeightRequest="48" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                                <Border.GestureRecognizers><TapGestureRecognizer Tapped="TemplateButtonClicked" /></Border.GestureRecognizers>
+                                <Label Text="▦" FontSize="22" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                            <Border x:Name="QuotationTab" Padding="14,11" BackgroundColor="Transparent" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                                <Border.GestureRecognizers><TapGestureRecognizer Tapped="QuotationTabTapped" /></Border.GestureRecognizers>
+                                <Label x:Name="QuotationTabLabel" Text="Quotation" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            </Border>
+                            <Border x:Name="PurchaseTab" Grid.Column="1" Padding="14,11" BackgroundColor="Transparent" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                                <Border.GestureRecognizers><TapGestureRecognizer Tapped="PurchaseTabTapped" /></Border.GestureRecognizers>
+                                <Label x:Name="PurchaseTabLabel" Text="Purchase" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            </Border>
+                            <Border x:Name="SalesTab" Grid.Column="2" Padding="14,11" BackgroundColor="Transparent" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                                <Border.GestureRecognizers><TapGestureRecognizer Tapped="SalesTabTapped" /></Border.GestureRecognizers>
+                                <Label x:Name="SalesTabLabel" Text="Sales" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            </Border>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <VerticalStackLayout Spacing="2">
+                                <Label x:Name="BillListTitleLabel" Text="Sales" FontSize="19" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                                <Label x:Name="BillListSubTitleLabel" Text="Recent documents" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                            </VerticalStackLayout>
+                            <Border x:Name="BillCountBadge" WidthRequest="74" HeightRequest="34" MinimumWidthRequest="74" Padding="8,0" HorizontalOptions="End" VerticalOptions="Center" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 12">
+                                <Label x:Name="BillCountLabel" Text="0" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource PrimaryColor}" />
+                            </Border>
+                        </Grid>
+<VerticalStackLayout x:Name="BillSkeletonContainer" IsVisible="False" Spacing="10">
+                            <Border Style="{StaticResource SkeletonCard}" HeightRequest="92" />
+                            <Border Style="{StaticResource SkeletonCard}" HeightRequest="92" />
+                            <Border Style="{StaticResource SkeletonCard}" HeightRequest="92" />
+                            <Border Style="{StaticResource SkeletonCard}" HeightRequest="92" />
+                            <Border Style="{StaticResource SkeletonCard}" HeightRequest="92" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout x:Name="BillListContainer" Spacing="10" />
+                        <VerticalStackLayout x:Name="BillEmptyState" IsVisible="False" Spacing="6" Padding="30,35">
+                            <Label Text="No bills yet" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Label Text="Create a quotation, purchase or sales document to get started." FontSize="12" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </RefreshView>
+
+            <Grid x:Name="BillSearchBackdrop" IsVisible="False" BackgroundColor="#22000000" ZIndex="55">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BillSearchBackdropTapped" />
+                </Grid.GestureRecognizers>
+            </Grid>
+
+            <Border x:Name="BillSearchCard" IsVisible="False" Margin="20,76,20,0" Padding="13,10" HorizontalOptions="Fill" VerticalOptions="Start" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 18" ZIndex="60">
+                <VerticalStackLayout Spacing="7">
+                    <Label Text="Search bills" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{StaticResource PrimaryColor}" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Entry x:Name="BillSearchEntry" Placeholder="Bill no / party / mobile / email / GSTIN / PAN / product / SKU" TextChanged="BillSearchEntry_TextChanged" Completed="BillSearchEntry_Completed" ClearButtonVisibility="WhileEditing" ReturnType="Search" HorizontalTextAlignment="Center" />
+                        <ActivityIndicator x:Name="BillSearchSpinner" Grid.Column="1" WidthRequest="22" HeightRequest="22" IsVisible="False" IsRunning="False" Color="{StaticResource PrimaryColor}" VerticalOptions="Center" />
+                    </Grid>
+                    <Label x:Name="BillSearchStatusLabel" Text="Type to search" FontSize="10" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                    <ScrollView HeightRequest="250" IsVisible="False">
+                        <VerticalStackLayout x:Name="BillSearchResultsContainer" Spacing="5" />
+                    </ScrollView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border x:Name="AddBillFab" WidthRequest="64" HeightRequest="64" Margin="0,0,24,106" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="{StaticResource PrimaryColor}" Stroke="Transparent" StrokeShape="RoundRectangle 22" ZIndex="40">
+                <Border.Shadow><Shadow Brush="#66000000" Offset="0,6" Radius="14" Opacity="0.30" /></Border.Shadow>
+                <Border.GestureRecognizers><TapGestureRecognizer Tapped="AddBillFabTapped" /></Border.GestureRecognizers>
+                <Label Text="+" FontSize="32" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <!-- EDITOR -->
+        <Grid x:Name="EditorContent" IsVisible="False" BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}" ZIndex="100">
+            <ScrollView x:Name="DetailScrollView">
+                <VerticalStackLayout Padding="20,18,20,125" Spacing="14">
+                    <Grid ColumnDefinitions="44,*,42" ColumnSpacing="10">
+                        <Border WidthRequest="42" HeightRequest="42" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="BackFromBillClicked" /></Border.GestureRecognizers>
+                            <Label Text="‹" FontSize="29" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                            <Label x:Name="EditorTitleLabel" Text="Create Sales Invoice" FontSize="21" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Label x:Name="EditorSubtitleLabel" Text="Sales invoice" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="2" WidthRequest="42" HeightRequest="42" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="TemplateButtonClicked" /></Border.GestureRecognizers>
+                            <Label Text="▦" FontSize="19" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor}" />
+                        </Border>
+                    </Grid>
+
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                        <VerticalStackLayout Spacing="9">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Party details" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                                <Label x:Name="PartyTypeHintLabel" Grid.Column="1" Text="Customer" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" />
+                            </Grid>
+                            <Label Text="Search party" FontSize="12" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                            <Entry x:Name="PartySearchEntry" Placeholder="Name / mobile / email / GSTIN / PAN" TextChanged="PartySearchEntry_TextChanged" ClearButtonVisibility="WhileEditing" />
+                            <VerticalStackLayout x:Name="PartySuggestionsContainer" IsVisible="False" Spacing="4" />
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="2"><Label Text="Party name" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Entry x:Name="PartyNameEntry" Placeholder="Enter party name" /></VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2"><Label Text="Mobile" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Entry x:Name="PartyMobileEntry" Placeholder="10 digit mobile" Keyboard="Telephone" /></VerticalStackLayout>
+                            </Grid>
+                            <VerticalStackLayout Spacing="2"><Label Text="Email" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Entry x:Name="PartyEmailEntry" Placeholder="Email (optional)" Keyboard="Email" /></VerticalStackLayout>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="Billing address" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" />
+                                    <Border x:Name="BillingAddressSelector" HeightRequest="60" Padding="11,6" BackgroundColor="{AppThemeBinding Light=#F7F9F3, Dark=#20271B}" Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="BillingAddressSelectorTapped" /></Border.GestureRecognizers>
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                            <Label x:Name="BillingAddressSelectedLabel" Text="Select billing address" FontSize="10" LineBreakMode="WordWrap" VerticalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                            <Label Grid.Column="1" Text="⌄" FontSize="17" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="Shipping address" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" />
+                                    <Border x:Name="ShippingAddressSelector" HeightRequest="60" Padding="11,6" BackgroundColor="{AppThemeBinding Light=#F7F9F3, Dark=#20271B}" Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+                                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="ShippingAddressSelectorTapped" /></Border.GestureRecognizers>
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                            <Label x:Name="ShippingAddressSelectedLabel" Text="Select shipping address" FontSize="10" LineBreakMode="WordWrap" VerticalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource LightSecondaryText}}" />
+                                            <Label Grid.Column="1" Text="⌄" FontSize="17" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Products" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Label Text="Search product" FontSize="12" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                            <Entry x:Name="ProductSearchEntry" Placeholder="Product name / SKU / barcode / HSN" TextChanged="ProductSearchEntry_TextChanged" Completed="ProductSearchEntry_Completed" ClearButtonVisibility="WhileEditing" ReturnType="Search" />
+                            <Border x:Name="ProductSuggestionCard" IsVisible="False" BackgroundColor="{AppThemeBinding Light=#F5F7F0, Dark=#222A1D}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 13" Padding="5" ZIndex="20">
+                                <VerticalStackLayout x:Name="ProductSuggestionsContainer" Spacing="3" />
+                            </Border>
+                            <Grid ColumnDefinitions="*,55,76,96,28" ColumnSpacing="5" Margin="2,5,2,0">
+                                <Label Text="Product" FontSize="11" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                <Label Grid.Column="1" Text="Qty" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                <Label Grid.Column="2" Text="Rate" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                <Label Grid.Column="3" Text="Discount" FontSize="9" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                <Label Grid.Column="4" Text="" />
+                            </Grid>
+                            <VerticalStackLayout x:Name="BillItemsContainer" Spacing="7" />
+                            <Label x:Name="NoItemsLabel" Text="No products added" FontSize="11" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                        <VerticalStackLayout Spacing="9">
+                            <Label Text="Bill details" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="2"><Label Text="Bill date" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><DatePicker x:Name="BillDatePicker" Format="dd/MM/yyyy" /></VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2"><Label Text="Due date" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><DatePicker x:Name="DueDatePicker" Format="dd/MM/yyyy" /></VerticalStackLayout>
+                            </Grid>
+                            <VerticalStackLayout Spacing="2"><Label Text="Notes / terms" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Editor x:Name="BillNotesEditor" Placeholder="Notes / terms" AutoSize="TextChanges" HeightRequest="75" /></VerticalStackLayout>
+                            <Border BackgroundColor="{AppThemeBinding Light=#F7F9F3, Dark=#20271B}" Stroke="Transparent" StrokeShape="RoundRectangle 13" Padding="12">
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" RowSpacing="5">
+                                    <Label Text="Subtotal" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="SubTotalLabel" Grid.Column="1" Text="₹ 0.00" FontSize="11" FontAttributes="Bold" />
+                                    <Label Grid.Row="1" Text="Discount" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DiscountTotalLabel" Grid.Row="1" Grid.Column="1" Text="₹ 0.00" FontSize="11" FontAttributes="Bold" />
+                                    <Label Grid.Row="2" Text="Tax" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="TaxTotalLabel" Grid.Row="2" Grid.Column="1" Text="₹ 0.00" FontSize="11" FontAttributes="Bold" />
+                                    <Label Grid.Row="3" Text="Grand Total" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Label x:Name="GrandTotalLabel" Grid.Row="3" Grid.Column="1" Text="₹ 0.00" FontSize="17" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" />
+                                </Grid>
+                            </Border>
+                            <Label x:Name="AmountWordsLabel" Text="Zero Rupees Only" FontSize="12" FontAttributes="Bold" LineBreakMode="WordWrap" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                            <Border x:Name="PaymentSection" IsVisible="True" BackgroundColor="Transparent" Stroke="Transparent" Padding="0">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label x:Name="PaymentSectionTitle" Text="Payment" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                        <VerticalStackLayout Spacing="2"><Label x:Name="PaymentAmountLabel" Text="Payment received" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Entry x:Name="PaymentNowEntry" Placeholder="Amount now (optional)" Keyboard="Numeric" /></VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2"><Label Text="Payment mode" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Picker x:Name="PaymentModePicker" Title="Select mode" /></VerticalStackLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Button x:Name="SaveBillButton" Text="Save Bill" HeightRequest="54" CornerRadius="16" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" FontAttributes="Bold" FontSize="15" Clicked="SaveBillClicked" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- DETAIL -->
+        <Grid x:Name="DetailContent" IsVisible="False" ZIndex="110">
+            <ScrollView>
+                <VerticalStackLayout Padding="20,18,20,125" Spacing="14">
+                    <Grid ColumnDefinitions="44,*,44" ColumnSpacing="10">
+                        <Border WidthRequest="42" HeightRequest="42" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="BackFromBillClicked" /></Border.GestureRecognizers>
+                            <Label Text="‹" FontSize="29" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                            <Label x:Name="DetailTitleLabel" Text="Sales Invoice" FontSize="22" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Label x:Name="DetailNoLabel" Text="INV000001" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="2" WidthRequest="42" HeightRequest="42" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="DetailActionButtonTapped" /></Border.GestureRecognizers>
+                            <Label Text="⋮" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor}" />
+                        </Border>
+                    </Grid>
+
+                    <Border BackgroundColor="{StaticResource PrimaryColor}" Stroke="Transparent" StrokeShape="RoundRectangle 20" Padding="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="2">
+                                <Label x:Name="DetailPartyNameLabel" Text="Party" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                                <Label x:Name="DetailPartyMetaLabel" Text="" FontSize="12" TextColor="#E8EDDB" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="1">
+                                <Label x:Name="DetailStatusLabel" Text="UNPAID" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="End" TextColor="White" />
+                                <Label x:Name="DetailGrandTotalLabel" Text="₹ 0.00" FontSize="22" FontAttributes="Bold" HorizontalTextAlignment="End" TextColor="White" />
+                                <Label x:Name="DetailBalanceLabel" Text="Balance ₹ 0.00" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="End" TextColor="#E8EDDB" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Bill details" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Grid ColumnDefinitions="88,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="5">
+                                <Label Text="Party" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailPartyInfoLabel" Grid.Column="1" FontSize="12" FontAttributes="Bold" LineBreakMode="WordWrap" />
+                                <Label Grid.Row="1" Text="Mobile" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailMobileInfoLabel" Grid.Row="1" Grid.Column="1" FontSize="12" FontAttributes="Bold" />
+                                <Label Grid.Row="2" Text="Email" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailEmailInfoLabel" Grid.Row="2" Grid.Column="1" FontSize="12" FontAttributes="Bold" LineBreakMode="WordWrap" />
+                                <Label Grid.Row="3" Text="Date" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailDateInfoLabel" Grid.Row="3" Grid.Column="1" FontSize="12" FontAttributes="Bold" />
+                                <Label Grid.Row="4" Text="Due" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailDueInfoLabel" Grid.Row="4" Grid.Column="1" FontSize="12" FontAttributes="Bold" />
+                                <Label Grid.Row="5" Text="Billing" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailBillingInfoLabel" Grid.Row="5" Grid.Column="1" FontSize="12" FontAttributes="Bold" LineBreakMode="WordWrap" />
+                                <Label Grid.Row="6" Text="Shipping" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailShippingInfoLabel" Grid.Row="6" Grid.Column="1" FontSize="12" FontAttributes="Bold" LineBreakMode="WordWrap" /><Label Grid.Row="7" Text="Contact" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailContactInfoLabel" Grid.Row="7" Grid.Column="1" FontSize="12" FontAttributes="Bold" LineBreakMode="WordWrap" /><Label Grid.Row="8" Text="GSTIN" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailGstinInfoLabel" Grid.Row="8" Grid.Column="1" FontSize="12" FontAttributes="Bold" /><Label Grid.Row="9" Text="PAN" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="DetailPanInfoLabel" Grid.Row="9" Grid.Column="1" FontSize="12" FontAttributes="Bold" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="12">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Items" FontSize="18" FontAttributes="Bold" Padding="4" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Grid ColumnDefinitions="2.4*,48,88,110" ColumnSpacing="5" Padding="4,0">
+                                <Label Text="Product" FontSize="11" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                <Label Grid.Column="1" Text="Qty" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="End" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                <Label Grid.Column="2" Text="Rate" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="End" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                <Label Grid.Column="3" Text="Amount" FontSize="11" FontAttributes="Bold" HorizontalTextAlignment="End" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                            </Grid>
+                            <VerticalStackLayout x:Name="DetailItemsContainer" Spacing="2" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="{AppThemeBinding Light=#F7F9F3, Dark=#20271B}" Stroke="Transparent" StrokeShape="RoundRectangle 13" Padding="12">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="Amount in words" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" />
+                            <Label x:Name="DetailAmountWordsLabel" Text="Zero Rupees Only" FontSize="13" FontAttributes="Bold" LineBreakMode="WordWrap" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border x:Name="DetailNotesCard" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                        <VerticalStackLayout Spacing="5"><Label Text="Notes / terms" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /><Label x:Name="DetailNotesLabel" FontSize="11" LineBreakMode="WordWrap" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /></VerticalStackLayout>
+                    </Border>
+
+                    <Border x:Name="DetailPaymentCard" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                        <VerticalStackLayout Spacing="8">
+                            <Label x:Name="DetailPaymentTitleLabel" Text="Payment details" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Label x:Name="DetailPaymentSummaryLabel" Text="Unpaid" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                            <VerticalStackLayout x:Name="DetailPaymentsContainer" Spacing="4" />
+                            <Grid x:Name="DetailPaymentEntryGrid" ColumnDefinitions="*,*" ColumnSpacing="8">
+                                <VerticalStackLayout Spacing="2"><Label x:Name="DetailPaymentAmountLabel" Text="Payment received" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Entry x:Name="DetailPaymentAmountEntry" Placeholder="Amount" Keyboard="Numeric" /></VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2"><Label Text="Mode" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /><Picker x:Name="DetailPaymentModePicker" Title="Select mode" /></VerticalStackLayout>
+                            </Grid>
+                            <Button x:Name="RecordPaymentButton" Text="Record Payment" HeightRequest="44" CornerRadius="13" BackgroundColor="{StaticResource SuccessColor}" TextColor="White" FontAttributes="Bold" Clicked="RecordPaymentClicked" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Button Text="Print" HeightRequest="48" CornerRadius="14" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" TextColor="{StaticResource PrimaryColor}" Clicked="PrintBillClicked" />
+                        <Button Grid.Column="1" Text="Share PDF" HeightRequest="48" CornerRadius="14" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" FontAttributes="Bold" Clicked="SharePdfClicked" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- CREATE MENU -->
+        <Grid x:Name="BillActionBackdrop" IsVisible="False" BackgroundColor="#33000000" ZIndex="200">
+            <Grid.GestureRecognizers><TapGestureRecognizer Tapped="BillActionBackdropTapped" /></Grid.GestureRecognizers>
+        </Grid>
+        <Border x:Name="BillActionMenu" IsVisible="False" WidthRequest="190" Padding="7" HorizontalOptions="End" VerticalOptions="End" Margin="0,0,20,176" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 17" ZIndex="210">
+            <VerticalStackLayout Spacing="2"><Label Text="Create new" FontSize="13" FontAttributes="Bold" Padding="10,7" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /><Button Text="Quotation" Clicked="CreateQuotationTapped" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HeightRequest="40" CornerRadius="10" /><Button Text="Purchase" Clicked="CreatePurchaseTapped" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HeightRequest="40" CornerRadius="10" /><Button Text="Sales Invoice" Clicked="CreateSalesTapped" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HeightRequest="40" CornerRadius="10" /></VerticalStackLayout>
+        </Border>
+
+        <!-- SHARED BILLING / SHIPPING ADDRESS MODAL -->
+        <Grid x:Name="AddressModalBackdrop" IsVisible="False" BackgroundColor="#66000000" ZIndex="260">
+            <Grid.GestureRecognizers><TapGestureRecognizer Tapped="AddressModalBackdropTapped" /></Grid.GestureRecognizers>
+        </Grid>
+        <Border x:Name="AddressModal" IsVisible="False" WidthRequest="350" HeightRequest="520" MaximumHeightRequest="520" Padding="14" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 22" ZIndex="270">
+            <Grid RowDefinitions="Auto,Auto,*,Auto,Auto" RowSpacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Spacing="2">
+                        <Label x:Name="AddressModalTitleLabel" Text="Select Billing Address" FontSize="17" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        <Label x:Name="AddressModalSubtitleLabel" Text="Choose a saved address or enter a new one." FontSize="10" LineBreakMode="WordWrap" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="AddressModalCloseButtonClicked" /></Border.GestureRecognizers>
+                        <Label Text="×" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+                <BoxView Grid.Row="1" HeightRequest="1" Color="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" />
+                <ScrollView Grid.Row="2" HeightRequest="250" VerticalScrollBarVisibility="Default">
+                    <VerticalStackLayout x:Name="AddressModalOptionsContainer" Spacing="6" />
+                </ScrollView>
+                <Border Grid.Row="3" Padding="11,7" BackgroundColor="{AppThemeBinding Light=#F7F9F3, Dark=#20271B}" Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" StrokeThickness="1" StrokeShape="RoundRectangle 13">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="Add / edit address" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" />
+                        <Editor x:Name="AddressModalEntry" Placeholder="Enter complete address" HeightRequest="86" AutoSize="TextChanges" />
+                    </VerticalStackLayout>
+                </Border>
+                <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Button Text="Cancel" HeightRequest="42" CornerRadius="12" BackgroundColor="Transparent" BorderColor="{StaticResource PrimaryColor}" BorderWidth="1" TextColor="{StaticResource PrimaryColor}" Clicked="AddressModalCloseButtonClicked" />
+                    <Button Grid.Column="1" Text="Use this address" HeightRequest="42" CornerRadius="12" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" FontAttributes="Bold" Clicked="SaveAddressModalClicked" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- TEMPLATE MASTER / PREVIEWS -->
+        <Grid x:Name="TemplateBackdrop" IsVisible="False" BackgroundColor="#55000000" ZIndex="300">
+            <Grid.GestureRecognizers><TapGestureRecognizer Tapped="TemplateBackdropTapped" /></Grid.GestureRecognizers>
+        </Grid>
+        <Border x:Name="TemplateMenu" IsVisible="False" WidthRequest="350" HeightRequest="560" MaximumHeightRequest="560" Padding="14" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 22" ZIndex="310">
+            <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Invoice Template Master" FontSize="17" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        <Label Text="Choose the design used for PDF / Print." FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="TemplateCloseButtonClicked" /></Border.GestureRecognizers>
+                        <Label Text="×" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+                <BoxView Grid.Row="1" HeightRequest="1" Color="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" />
+                <ScrollView Grid.Row="2" VerticalScrollBarVisibility="Default">
+                    <VerticalStackLayout x:Name="TemplatePreviewContainer" Spacing="9" />
+                </ScrollView>
+                <Button Grid.Row="3" Text="Close" HeightRequest="42" CornerRadius="13" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" FontAttributes="Bold" Clicked="TemplateCloseButtonClicked" />
+            </Grid>
+        </Border>
+
+        <!-- DETAIL ACTION MENU -->
+        <Grid x:Name="DetailActionBackdrop" IsVisible="False" BackgroundColor="#33000000" ZIndex="400">
+            <Grid.GestureRecognizers><TapGestureRecognizer Tapped="DetailActionBackdropTapped" /></Grid.GestureRecognizers>
+        </Grid>
+        <Border x:Name="DetailActionMenu" IsVisible="False" WidthRequest="190" Padding="7" HorizontalOptions="End" VerticalOptions="Start" Margin="0,82,20,0" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 17" ZIndex="410">
+            <VerticalStackLayout Spacing="2"><Label Text="Bill actions" FontSize="13" FontAttributes="Bold" Padding="10,7" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /><Button Text="Edit Bill" Clicked="EditBillTapped" HeightRequest="42" CornerRadius="10" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /><Button Text="Delete Bill" Clicked="DeleteBillTapped" HeightRequest="42" CornerRadius="10" BackgroundColor="Transparent" TextColor="{StaticResource DangerColor}" /><Button Text="Close" Clicked="DetailActionCloseTapped" HeightRequest="38" CornerRadius="10" BackgroundColor="Transparent" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /></VerticalStackLayout>
+        </Border>
+
+        <controls:LoadingOverlay x:Name="BillSaveLoader" Grid.RowSpan="1" ZIndex="999" />
+    </Grid>
+</ContentView>

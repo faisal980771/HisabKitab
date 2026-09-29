@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    xmlns:controls="clr-namespace:HisabKitab.Controls"
+    x:Class="HisabKitab.Views.Dashboard.StockEntryView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ===================================================== -->
+        <!-- HEADER                                                -->
+        <!-- ===================================================== -->
+
+        <Grid
+            Grid.Row="0"
+            Padding="20,18,20,10"
+            ColumnDefinitions="44,*"
+            ColumnSpacing="10">
+
+            <Border
+                WidthRequest="42"
+                HeightRequest="42"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="BackTapped" />
+                </Border.GestureRecognizers>
+
+                <Label
+                    Text="‹"
+                    FontSize="29"
+                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+
+            </Border>
+
+            <VerticalStackLayout
+                Grid.Column="1"
+                VerticalOptions="Center"
+                Spacing="1">
+
+                <Label
+                    Text="Add Stock"
+                    FontSize="21"
+                    FontAttributes="Bold"
+                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                <Label
+                    x:Name="ProductNameLabel"
+                    Text="Product"
+                    FontSize="11"
+                    TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+            </VerticalStackLayout>
+
+        </Grid>
+
+
+        <!-- ===================================================== -->
+        <!-- FORM                                                   -->
+        <!-- ===================================================== -->
+
+        <ScrollView Grid.Row="1">
+
+            <VerticalStackLayout
+                Padding="20,8,20,150"
+                Spacing="14">
+
+                <!-- AVAILABLE STOCK -->
+
+                <Border
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="18">
+
+                    <Grid
+                        ColumnDefinitions="*,Auto">
+
+                        <VerticalStackLayout>
+
+                            <Label
+                                Text="Available Stock"
+                                FontSize="11"
+                                TextColor="#E8EDDB" />
+
+                            <Label
+                                x:Name="AvailableStockLabel"
+                                Text="0 Piece"
+                                FontSize="24"
+                                FontAttributes="Bold"
+                                TextColor="White" />
+
+                        </VerticalStackLayout>
+
+                        <Label
+                            Grid.Column="1"
+                            Text="STOCK IN"
+                            FontSize="11"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+
+                </Border>
+
+
+                <!-- STOCK ENTRY -->
+
+                <Border
+                    BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                    Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="16">
+
+                    <VerticalStackLayout
+                        Spacing="12">
+
+                        <Label
+                            Text="Stock Entry"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                        <Entry
+                            x:Name="QuantityEntry"
+                            Placeholder="Quantity *"
+                            Keyboard="Numeric" />
+
+                        <Entry
+                            x:Name="RateEntry"
+                            Placeholder="Purchase rate (optional)"
+                            Keyboard="Numeric" />
+
+                        <DatePicker
+                            x:Name="StockDatePicker"
+                            Format="dd/MM/yyyy" />
+
+
+                        <!-- SUPPLIER -->
+
+                        <Grid>
+
+                            <Entry
+                                x:Name="SupplierEntry"
+                                Placeholder="Supplier (optional)"
+                                TextChanged="SupplierEntry_TextChanged" />
+
+                            <Border
+                                x:Name="SupplierSuggestionsBorder"
+                                Margin="0,48,0,0"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 12"
+                                IsVisible="False"
+                                ZIndex="20">
+
+                                <CollectionView
+                                    x:Name="SupplierSuggestions"
+                                    HeightRequest="150"
+                                    SelectionMode="None">
+
+                                    <CollectionView.ItemTemplate>
+
+                                        <DataTemplate>
+
+                                            <Grid
+                                                Padding="12,9">
+
+                                                <Grid.GestureRecognizers>
+
+                                                    <TapGestureRecognizer
+                                                        Tapped="SupplierSuggestionTapped" />
+
+                                                </Grid.GestureRecognizers>
+
+                                                <Label
+                                                    Text="{Binding Name}"
+                                                    FontSize="13"
+                                                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                                            </Grid>
+
+                                        </DataTemplate>
+
+                                    </CollectionView.ItemTemplate>
+
+                                </CollectionView>
+
+                            </Border>
+
+                        </Grid>
+
+
+                        <Label
+                            Text="Existing supplier will be selected; a new supplier name will create a Supplier party automatically."
+                            FontSize="10"
+                            TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+                        <Entry
+                            x:Name="ReferenceEntry"
+                            Placeholder="Invoice / reference no. (optional)" />
+
+                        <Editor
+                            x:Name="NotesEditor"
+                            Placeholder="Notes (optional)"
+                            AutoSize="TextChanges"
+                            HeightRequest="80" />
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+
+                <!-- SAVE -->
+
+                <Button
+                    x:Name="SaveButton"
+                    Text="Add Stock"
+                    HeightRequest="54"
+                    CornerRadius="16"
+                    BackgroundColor="{StaticResource SuccessColor}"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Clicked="SaveClicked" />
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+
+        <!-- ===================================================== -->
+        <!-- FORM SAVE BLOCK LOADER                               -->
+        <!-- IMPORTANT: MUST SPAN BOTH GRID ROWS                  -->
+        <!-- ===================================================== -->
+
+        <controls:LoadingOverlay
+            x:Name="SaveLoader"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+            ZIndex="999" />
+
+    </Grid>
+
+</ContentView>

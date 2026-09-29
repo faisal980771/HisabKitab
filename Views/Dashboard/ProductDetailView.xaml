@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="HisabKitab.Views.Dashboard.ProductDetailView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:HisabKitab.Controls"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+    <Grid RowDefinitions="Auto,*">
+        <Grid Padding="20,18,20,10" ColumnDefinitions="44,*,Auto">
+            <Border WidthRequest="42" HeightRequest="42" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                <Border.GestureRecognizers><TapGestureRecognizer Tapped="BackTapped" /></Border.GestureRecognizers>
+                <Label Text="‹" FontSize="29" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                <Label Text="Product" FontSize="21" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                <Label Text="Product details and stock history" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,8,20,150" Spacing="14">
+
+                <Border BackgroundColor="{StaticResource PrimaryColor}" Stroke="Transparent" StrokeShape="RoundRectangle 22" Padding="18">
+                    <Grid ColumnDefinitions="84,*,88" ColumnSpacing="12">
+                        <Border WidthRequest="78" HeightRequest="78" BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 18">
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="ProductImageTapped" /></Border.GestureRecognizers>
+                            <Image x:Name="ProductImage" HeightRequest="68" WidthRequest="68" Aspect="AspectFill" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                            <Label x:Name="NameLabel" Text="Product" FontSize="19" FontAttributes="Bold" TextColor="White" />
+                            <Label x:Name="CodeLabel" Text="PRD000001" FontSize="10" TextColor="#E8EDDB" />
+                            <Label x:Name="CategoryLabel" Text="Category" FontSize="10" TextColor="#E8EDDB" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="End">
+                            <Label x:Name="StockLabel" Text="0 Piece" FontSize="17" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="End" />
+                            <Label x:Name="StockStatusLabel" Text="IN STOCK" FontSize="9" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="End" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button Text="Edit Product" HeightRequest="50" CornerRadius="15" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" FontAttributes="Bold" Clicked="EditClicked" />
+                    <Button Grid.Column="1" Text="+ Add Stock" HeightRequest="50" CornerRadius="15" BackgroundColor="{StaticResource SuccessColor}" TextColor="White" FontAttributes="Bold" Clicked="AddStockClicked" />
+                </Grid>
+
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                    <VerticalStackLayout Spacing="11">
+                        <Label Text="Product Details" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Unit" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="UnitLabel" Grid.Column="1" Text="Piece" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /></Grid>
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Purchase Rate" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="PurchaseRateLabel" Grid.Column="1" Text="₹ 0" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /></Grid>
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Sale Rate" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="SaleRateLabel" Grid.Column="1" Text="₹ 0" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" /></Grid>
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="GST" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="GSTLabel" Grid.Column="1" Text="0%" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /></Grid>
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="HSN / SAC" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="HSNLabel" Grid.Column="1" Text="-" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /></Grid>
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Reorder Level" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" /><Label x:Name="ReorderLabel" Grid.Column="1" Text="0" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" /></Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="16">
+                    <VerticalStackLayout Spacing="9">
+                        <Label Text="Stock History" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        <Label x:Name="HistorySummaryLabel" Text="No stock movement yet." FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                        <VerticalStackLayout x:Name="HistoryContainer" Spacing="8" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Delete Product" HeightRequest="50" CornerRadius="15" BackgroundColor="Transparent" TextColor="{StaticResource DangerColor}" BorderColor="{StaticResource DangerColor}" BorderWidth="1" FontAttributes="Bold" Clicked="DeleteClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    
+    <controls:ImagePreviewOverlay
+        x:Name="ProductDetailImagePreview"
+        Grid.RowSpan="2"
+        ZIndex="200" />
+</Grid>
+</ContentView>

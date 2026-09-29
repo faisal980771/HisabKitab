@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="HisabKitab.Views.MorePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{StaticResource PageBackgroundColor}"
+    Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            Padding="18,20,18,30"
+            Spacing="0">
+
+            <!-- Header -->
+            <Grid
+                ColumnDefinitions="*,Auto"
+                Margin="0,4,0,22">
+
+                <VerticalStackLayout>
+
+                    <Label
+                        Text="More"
+                        FontSize="27"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource TextPrimaryColor}" />
+
+                    <Label
+                        Text="Manage your business"
+                        Style="{StaticResource SubtitleLabel}"
+                        Margin="0,4,0,0" />
+
+                </VerticalStackLayout>
+
+                <Border
+                    Grid.Column="1"
+                    HeightRequest="46"
+                    WidthRequest="46"
+                    BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 23">
+
+                    <Label
+                        Text="⚙"
+                        FontSize="22"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+
+                </Border>
+
+            </Grid>
+
+
+            <!-- BUSINESS -->
+            <Label
+                Text="Business"
+                FontSize="14"
+                FontAttributes="Bold"
+                TextColor="{StaticResource TextSecondaryColor}"
+                Margin="2,0,0,10" />
+
+            <Grid
+                ColumnDefinitions="*,*"
+                RowDefinitions="Auto,Auto"
+                ColumnSpacing="12"
+                RowSpacing="12">
+
+                <Border
+                    Style="{StaticResource CardStyle}"
+                    Padding="15">
+
+                    <VerticalStackLayout Spacing="9">
+
+                        <Border
+                            HeightRequest="42"
+                            WidthRequest="42"
+                            BackgroundColor="#EEF4FF"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 13">
+
+                            <Label
+                                Text="👤"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                        <Label
+                            Text="Customers"
+                            FontSize="14"
+                            FontAttributes="Bold" />
+
+                        <Label
+                            Text="Manage customers"
+                            FontSize="11"
+                            TextColor="{StaticResource TextSecondaryColor}" />
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+
+                <Border
+                    Grid.Column="1"
+                    Style="{StaticResource CardStyle}"
+                    Padding="15">
+
+                    <VerticalStackLayout Spacing="9">
+
+                        <Border
+                            HeightRequest="42"
+                            WidthRequest="42"
+                            BackgroundColor="#ECFDF3"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 13">
+
+                            <Label
+                                Text="📦"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                        <Label
+                            Text="Products"
+                            FontSize="14"
+                            FontAttributes="Bold" />
+
+                        <Label
+                            Text="Manage inventory"
+                            FontSize="11"
+                            TextColor="{StaticResource TextSecondaryColor}" />
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+
+                <Border
+                    Grid.Row="1"
+                    Style="{StaticResource CardStyle}"
+                    Padding="15">
+
+                    <VerticalStackLayout Spacing="9">
+
+                        <Border
+                            HeightRequest="42"
+                            WidthRequest="42"
+                            BackgroundColor="#FFF7ED"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 13">
+
+                            <Label
+                                Text="₹"
+                                FontSize="21"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource WarningColor}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                        <Label
+                            Text="Payments"
+                            FontSize="14"
+                            FontAttributes="Bold" />
+
+                        <Label
+                            Text="Receipts | payments"
+                            FontSize="11"
+                            TextColor="{StaticResource TextSecondaryColor}" />
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource CardStyle}"
+                    Padding="15">
+
+                    <VerticalStackLayout Spacing="9">
+
+                        <Border
+                            HeightRequest="42"
+                            WidthRequest="42"
+                            BackgroundColor="#F5F3FF"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 13">
+
+                            <Label
+                                Text="📊"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                        <Label
+                            Text="Reports"
+                            FontSize="14"
+                            FontAttributes="Bold" />
+
+                        <Label
+                            Text="Business reports"
+                            FontSize="11"
+                            TextColor="{StaticResource TextSecondaryColor}" />
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+            </Grid>
+
+
+            <!-- SYSTEM -->
+            <Label
+                Text="System"
+                FontSize="14"
+                FontAttributes="Bold"
+                TextColor="{StaticResource TextSecondaryColor}"
+                Margin="2,25,0,10" />
+
+
+            <Border
+                Style="{StaticResource CardStyle}"
+                Padding="0">
+
+                <VerticalStackLayout>
+
+                    <Grid
+                        Padding="16"
+                        ColumnDefinitions="Auto,*,Auto">
+
+                        <Border
+                            HeightRequest="42"
+                            WidthRequest="42"
+                            BackgroundColor="#EFF6FF"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12">
+
+                            <Label
+                                Text="☁"
+                                FontSize="20"
+                                TextColor="{StaticResource PrimaryColor}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            VerticalOptions="Center">
+
+                            <Label
+                                Text="Backup | Restore"
+                                FontSize="14"
+                                FontAttributes="Bold" />
+
+                            <Label
+                                Text="Google Drive backup"
+                                FontSize="11"
+                                TextColor="{StaticResource TextSecondaryColor}" />
+
+                        </VerticalStackLayout>
+
+                        <Label
+                            Grid.Column="2"
+                            Text="›"
+                            FontSize="27"
+                            TextColor="#9CA3AF"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+
+
+                    <BoxView
+                        HeightRequest="1"
+                        BackgroundColor="{StaticResource BorderColor}" />
+
+
+                    <Grid
+                        Padding="16"
+                        ColumnDefinitions="Auto,*,Auto">
+
+                        <Border
+                            HeightRequest="42"
+                            WidthRequest="42"
+                            BackgroundColor="#F3F4F6"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12">
+
+                            <Label
+                                Text="⚙"
+                                FontSize="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            VerticalOptions="Center">
+
+                            <Label
+                                Text="Settings"
+                                FontSize="14"
+                                FontAttributes="Bold" />
+
+                            <Label
+                                Text="Application settings"
+                                FontSize="11"
+                                TextColor="{StaticResource TextSecondaryColor}" />
+
+                        </VerticalStackLayout>
+
+                        <Label
+                            Grid.Column="2"
+                            Text="›"
+                            FontSize="27"
+                            TextColor="#9CA3AF"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+
+            <!-- SUBSCRIPTION -->
+            <Border
+                Margin="0,18,0,0"
+                Padding="18"
+                BackgroundColor="{StaticResource PrimaryColor}"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 18">
+
+                <Grid ColumnDefinitions="*,Auto">
+
+                    <VerticalStackLayout>
+
+                        <Label
+                            Text="HisabKitab Premium"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold" />
+
+                        <Label
+                            Text="Unlock all business features"
+                            TextColor="#DBEAFE"
+                            FontSize="12"
+                            Margin="0,4,0,0" />
+
+                    </VerticalStackLayout>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="›"
+                        TextColor="White"
+                        FontSize="28"
+                        VerticalOptions="Center" />
+
+                </Grid>
+
+            </Border>
+
+
+            <Label
+                Text="HisabKitab v1.0"
+                FontSize="11"
+                TextColor="#9CA3AF"
+                HorizontalOptions="Center"
+                Margin="0,22,0,0" />
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

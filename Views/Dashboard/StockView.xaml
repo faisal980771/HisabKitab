@@ -1,0 +1,1380 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    x:Class="HisabKitab.Views.Dashboard.StockView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+    <Grid>
+
+        <!-- ===================================================== -->
+        <!-- FIXED HEADER / SUMMARY / PRODUCTS HEADER              -->
+        <!-- ONLY PRODUCT LIST SCROLLS                             -->
+        <!-- ===================================================== -->
+
+        <Grid
+            x:Name="StockContent"
+            RowDefinitions="Auto,Auto,Auto,*"
+            ZIndex="0">
+
+            <!-- HEADER -->
+
+            <Grid
+                x:Name="StockHeader"
+                Grid.Row="0"
+                Padding="20,18,20,10"
+                ColumnDefinitions="*,48,48"
+                ColumnSpacing="8">
+
+                <VerticalStackLayout
+                    Grid.Column="0"
+                    Spacing="3">
+
+                    <Label
+                        Text="Stock"
+                        FontSize="27"
+                        FontAttributes="Bold"
+                        TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                    <Label
+                        Text="Products and available quantity"
+                        FontSize="13"
+                        TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+                </VerticalStackLayout>
+
+                <!-- SELECTED PRODUCT ACTIONS -->
+
+                <Border
+                    x:Name="SelectedActionsButton"
+                    Grid.Column="1"
+                    WidthRequest="48"
+                    HeightRequest="48"
+                    VerticalOptions="Center"
+                    IsVisible="False"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                    Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 13">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="SelectedActionsButtonTapped" />
+                    </Border.GestureRecognizers>
+
+                    <Grid>
+
+                        <Label
+                            Text="⋮"
+                            FontSize="23"
+                            FontAttributes="Bold"
+                            TextColor="{StaticResource PrimaryColor}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+                        <Border
+                            x:Name="SelectedCountBadge"
+                            WidthRequest="18"
+                            HeightRequest="18"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            Margin="0,4,4,0"
+                            BackgroundColor="{StaticResource DangerColor}"
+                            Stroke="White"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 9">
+
+                            <Label
+                                x:Name="SelectedCountLabel"
+                                Text="0"
+                                FontSize="8"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                    </Grid>
+
+                </Border>
+
+                <!-- SEARCH -->
+
+                <Border
+                    Grid.Column="2"
+                    WidthRequest="48"
+                    HeightRequest="48"
+                    HorizontalOptions="End"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                    Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 15">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="SearchButtonTapped" />
+                    </Border.GestureRecognizers>
+
+                    <Label
+                        Text="⌕"
+                        FontSize="27"
+                        TextColor="{StaticResource PrimaryColor}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+
+                </Border>
+
+            </Grid>
+
+
+            <!-- SUMMARY -->
+
+            <Border
+                x:Name="StockSummaryCard"
+                Grid.Row="1"
+                Margin="20,4,20,12"
+                Padding="15"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20">
+
+                <Grid
+                    ColumnDefinitions="*,*,*"
+                    ColumnSpacing="8">
+
+                    <VerticalStackLayout
+                        HorizontalOptions="Center"
+                        Spacing="3">
+
+                        <Label
+                            Text="PRODUCTS"
+                            FontSize="9"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}"
+                            HorizontalOptions="Center" />
+
+                        <Label
+                            x:Name="TotalProductsLabel"
+                            Text="0"
+                            FontSize="22"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}"
+                            HorizontalOptions="Center" />
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="Center"
+                        Spacing="3">
+
+                        <Label
+                            Text="LOW STOCK"
+                            FontSize="9"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}"
+                            HorizontalOptions="Center" />
+
+                        <Label
+                            x:Name="LowStockLabel"
+                            Text="0"
+                            FontSize="22"
+                            FontAttributes="Bold"
+                            TextColor="{StaticResource WarningColor}"
+                            HorizontalOptions="Center" />
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout
+                        Grid.Column="2"
+                        HorizontalOptions="Center"
+                        Spacing="3">
+
+                        <Label
+                            Text="STOCK QTY"
+                            FontSize="9"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}"
+                            HorizontalOptions="Center" />
+
+                        <Label
+                            x:Name="TotalStockLabel"
+                            Text="0"
+                            FontSize="22"
+                            FontAttributes="Bold"
+                            TextColor="{StaticResource SuccessColor}"
+                            HorizontalOptions="Center" />
+
+                    </VerticalStackLayout>
+
+                </Grid>
+
+            </Border>
+
+
+            <!-- PRODUCTS HEADER -->
+
+            <VerticalStackLayout
+                x:Name="ProductsHeader"
+                Grid.Row="2"
+                Padding="20,2,20,8"
+                Spacing="8">
+
+                <!-- SEARCH FILTER PILL -->
+
+                <Border
+                    x:Name="SearchFilterPill"
+                    IsVisible="False"
+                    HorizontalOptions="Start"
+                    MaximumWidthRequest="320"
+                    Padding="10,7"
+                    BackgroundColor="{AppThemeBinding Light=#E8EDDB, Dark=#303A28}"
+                    Stroke="{AppThemeBinding Light=#D6DEC2, Dark=#3B4730}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 14">
+
+                    <Grid
+                        ColumnDefinitions="*,28"
+                        ColumnSpacing="6">
+
+                        <Label
+                            x:Name="SearchFilterLabel"
+                            FontSize="11"
+                            FontAttributes="Bold"
+                            LineBreakMode="TailTruncation"
+                            TextColor="{AppThemeBinding Light=#50602D, Dark=#DCE6C7}"
+                            VerticalOptions="Center" />
+
+                        <Border
+                            Grid.Column="1"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 8">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Tapped="ClearSearchFilterTapped" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                Text="×"
+                                FontSize="15"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource PrimaryColor}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                    </Grid>
+
+                </Border>
+
+
+                <Grid
+                    ColumnDefinitions="*,Auto,40"
+                    ColumnSpacing="6">
+
+                    <VerticalStackLayout
+                        Spacing="2">
+
+                        <Label
+                            Text="Products"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                        <Label
+                            x:Name="SortCurrentLabel"
+                            Text="A-Z"
+                            FontSize="10"
+                            TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+                    </VerticalStackLayout>
+
+                    <Label
+                        x:Name="ProductCountLabel"
+                        Grid.Column="1"
+                        Text="0"
+                        FontSize="11"
+                        TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}"
+                        VerticalOptions="Center"
+                        Margin="0,0,4,0" />
+
+                    <!-- SORT -->
+
+                    <Border
+                        Grid.Column="2"
+                        WidthRequest="38"
+                        HeightRequest="38"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                        Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="SortButtonTapped" />
+                        </Border.GestureRecognizers>
+
+                        <Label
+                            Text="⋮"
+                            FontSize="23"
+                            FontAttributes="Bold"
+                            TextColor="{StaticResource PrimaryColor}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+
+                    </Border>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+
+            <!-- PRODUCT LIST -->
+
+            <Grid
+                Grid.Row="3">
+
+                <ScrollView
+                    x:Name="ProductScrollView"
+                    Scrolled="ProductScrollView_Scrolled">
+
+                    <VerticalStackLayout
+                        Padding="20,0,34,210"
+                        Spacing="10">
+
+                        <Border
+                            x:Name="EmptyState"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                            Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="24"
+                            IsVisible="False">
+
+                            <VerticalStackLayout
+                                HorizontalOptions="Center"
+                                Spacing="8">
+
+                                <Label
+                                    Text="No products found"
+                                    FontSize="18"
+                                    FontAttributes="Bold"
+                                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}"
+                                    HorizontalOptions="Center" />
+
+                                <Label
+                                    Text="Try another search or add a product."
+                                    FontSize="12"
+                                    TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}"
+                                    HorizontalTextAlignment="Center" />
+
+                            </VerticalStackLayout>
+
+                        </Border>
+
+                        <VerticalStackLayout
+                            x:Name="ProductListContainer"
+                            Spacing="10" />
+
+                        <VerticalStackLayout
+                            x:Name="BottomLoadIndicator"
+                            IsVisible="False"
+                            Padding="0,8,0,8"
+                            HorizontalOptions="Center"
+                            Spacing="4">
+
+                            <ActivityIndicator
+                                x:Name="BottomLoadSpinner"
+                                WidthRequest="24"
+                                HeightRequest="24"
+                                Color="{StaticResource PrimaryColor}"
+                                IsRunning="False" />
+
+                            <Label
+                                Text="Loading..."
+                                FontSize="10"
+                                FontAttributes="Bold"
+                                TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+
+                </ScrollView>
+
+
+                <!-- PRODUCT LIST SKELETON -->
+                <Grid
+                    x:Name="ProductSkeletonContainer"
+                    IsVisible="False"
+                    BackgroundColor="{AppThemeBinding Light=#F5F7F0, Dark=#10140E}"
+                    Opacity="0.98"
+                    Padding="20,0,34,210"
+                    ZIndex="100">
+
+                    <VerticalStackLayout
+                        Spacing="10">
+
+                        <Border
+                            HeightRequest="82"
+                            Padding="10"
+                            BackgroundColor="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 17">
+
+                            <Grid
+                                ColumnDefinitions="30,60,*,92"
+                                ColumnSpacing="8">
+
+                                <Border
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 6" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    WidthRequest="60"
+                                    HeightRequest="60"
+                                    BackgroundColor="{AppThemeBinding Light=#DEE4D3, Dark=#2C3525}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 15" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="135"
+                                        HeightRequest="12"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="90"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                    <Border
+                                        WidthRequest="68"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout
+                                    Grid.Column="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="70"
+                                        HeightRequest="11"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="52"
+                                        HeightRequest="8"
+                                        HorizontalOptions="End"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 4" />
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                        <Border
+                            HeightRequest="82"
+                            Padding="10"
+                            BackgroundColor="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 17">
+
+                            <Grid
+                                ColumnDefinitions="30,60,*,92"
+                                ColumnSpacing="8">
+
+                                <Border
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 6" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    WidthRequest="60"
+                                    HeightRequest="60"
+                                    BackgroundColor="{AppThemeBinding Light=#DEE4D3, Dark=#2C3525}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 15" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="150"
+                                        HeightRequest="12"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="100"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                    <Border
+                                        WidthRequest="60"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout
+                                    Grid.Column="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="74"
+                                        HeightRequest="11"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="50"
+                                        HeightRequest="8"
+                                        HorizontalOptions="End"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 4" />
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                        <Border
+                            HeightRequest="82"
+                            Padding="10"
+                            BackgroundColor="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 17">
+
+                            <Grid
+                                ColumnDefinitions="30,60,*,92"
+                                ColumnSpacing="8">
+
+                                <Border
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 6" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    WidthRequest="60"
+                                    HeightRequest="60"
+                                    BackgroundColor="{AppThemeBinding Light=#DEE4D3, Dark=#2C3525}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 15" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="118"
+                                        HeightRequest="12"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="96"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                    <Border
+                                        WidthRequest="72"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout
+                                    Grid.Column="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="68"
+                                        HeightRequest="11"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="48"
+                                        HeightRequest="8"
+                                        HorizontalOptions="End"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 4" />
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                        <Border
+                            HeightRequest="82"
+                            Padding="10"
+                            BackgroundColor="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 17">
+
+                            <Grid
+                                ColumnDefinitions="30,60,*,92"
+                                ColumnSpacing="8">
+
+                                <Border
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 6" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    WidthRequest="60"
+                                    HeightRequest="60"
+                                    BackgroundColor="{AppThemeBinding Light=#DEE4D3, Dark=#2C3525}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 15" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="140"
+                                        HeightRequest="12"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="84"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                    <Border
+                                        WidthRequest="66"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout
+                                    Grid.Column="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="72"
+                                        HeightRequest="11"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="50"
+                                        HeightRequest="8"
+                                        HorizontalOptions="End"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 4" />
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                        <Border
+                            HeightRequest="82"
+                            Padding="10"
+                            BackgroundColor="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 17">
+
+                            <Grid
+                                ColumnDefinitions="30,60,*,92"
+                                ColumnSpacing="8">
+
+                                <Border
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 6" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    WidthRequest="60"
+                                    HeightRequest="60"
+                                    BackgroundColor="{AppThemeBinding Light=#DEE4D3, Dark=#2C3525}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 15" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="122"
+                                        HeightRequest="12"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="92"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                    <Border
+                                        WidthRequest="74"
+                                        HeightRequest="9"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 5" />
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout
+                                    Grid.Column="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Spacing="6">
+
+                                    <Border
+                                        WidthRequest="64"
+                                        HeightRequest="11"
+                                        BackgroundColor="{AppThemeBinding Light=#D8DECC, Dark=#303A28}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 6" />
+
+                                    <Border
+                                        WidthRequest="46"
+                                        HeightRequest="8"
+                                        HorizontalOptions="End"
+                                        BackgroundColor="{AppThemeBinding Light=#E1E6D7, Dark=#283021}"
+                                        Stroke="Transparent"
+                                        StrokeShape="RoundRectangle 4" />
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Border
+                        x:Name="SkeletonWave"
+                        WidthRequest="95"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Fill"
+                        InputTransparent="True"
+                        IsVisible="False"
+                        Opacity="0.55"
+                        Stroke="Transparent"
+                        ZIndex="5">
+
+                        <Border.Background>
+                            <LinearGradientBrush
+                                StartPoint="0,0"
+                                EndPoint="1,0">
+
+                                <GradientStop Color="#00FFFFFF" Offset="0.0" />
+                                <GradientStop Color="#A8FFFFFF" Offset="0.5" />
+                                <GradientStop Color="#00FFFFFF" Offset="1.0" />
+
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                    </Border>
+
+                </Grid>
+
+                <!-- COMPACT A-Z -->
+
+                <Border
+                    x:Name="AlphabetIndexContainer"
+                    WidthRequest="21"
+                    HeightRequest="382"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Margin="0,0,4,105"
+                    Padding="0,6"
+                    BackgroundColor="{AppThemeBinding Light=#F4FFFFFF, Dark=#E61A2016}"
+                    Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    ZIndex="110">
+
+                    <VerticalStackLayout
+                        x:Name="AlphabetBar"
+                        Spacing="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+
+                </Border>
+
+
+                <!-- ACTIVE ALPHABET BUBBLE -->
+
+                <Border
+                    x:Name="AlphabetBubble"
+                    WidthRequest="56"
+                    HeightRequest="56"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Margin="0,0,34,105"
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 28"
+                    IsVisible="False"
+                    InputTransparent="True"
+                    Opacity="0"
+                    Scale="0.75"
+                    ZIndex="120">
+
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="#66000000"
+                            Offset="0,4"
+                            Radius="12"
+                            Opacity="0.28" />
+                    </Border.Shadow>
+
+                    <Label
+                        x:Name="AlphabetBubbleLabel"
+                        Text="A"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+
+                </Border>
+
+            </Grid>
+
+        </Grid>
+
+
+        <!-- PULL REFRESH INDICATOR -->
+
+        <Grid
+            x:Name="PullRefreshIndicator"
+            HorizontalOptions="Center"
+            VerticalOptions="Start"
+            Margin="0,4,0,0"
+            TranslationY="-28"
+            Opacity="0"
+            InputTransparent="True"
+            ZIndex="30">
+
+            <Border
+                WidthRequest="42"
+                HeightRequest="42"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14">
+
+                <ActivityIndicator
+                    x:Name="PullRefreshSpinner"
+                    WidthRequest="22"
+                    HeightRequest="22"
+                    Color="{StaticResource PrimaryColor}"
+                    IsRunning="False" />
+
+            </Border>
+
+        </Grid>
+
+
+        <!-- SEARCH OVERLAY -->
+
+        <Grid
+            x:Name="SearchOverlay"
+            IsVisible="False"
+            BackgroundColor="#99000000"
+            ZIndex="200">
+
+            <Grid
+                BackgroundColor="Transparent">
+
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="SearchOverlayTapped" />
+                </Grid.GestureRecognizers>
+
+            </Grid>
+
+            <Border
+                Margin="12,16,12,0"
+                Padding="8"
+                VerticalOptions="Start"
+                BackgroundColor="{AppThemeBinding Light=#FAFFFFFF, Dark=#F51A2016}"
+                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 22">
+
+                <VerticalStackLayout
+                    Spacing="5">
+
+                    <Grid
+                        ColumnDefinitions="*,42"
+                        ColumnSpacing="4">
+
+                        <SearchBar
+                            x:Name="ProductSearchBar"
+                            Placeholder="Search name, SKU, barcode, HSN..."
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}"
+                            PlaceholderColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}"
+                            TextChanged="ProductSearchBar_TextChanged"
+                            SearchButtonPressed="ProductSearchBar_SearchButtonPressed" />
+
+                        <Border
+                            Grid.Column="1"
+                            WidthRequest="38"
+                            HeightRequest="38"
+                            VerticalOptions="Center"
+                            BackgroundColor="{AppThemeBinding Light=#EEF2E3, Dark=#29321F}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Tapped="CloseSearchTapped" />
+                            </Border.GestureRecognizers>
+
+                            <Label
+                                Text="×"
+                                FontSize="22"
+                                TextColor="{StaticResource PrimaryColor}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                        </Border>
+
+                    </Grid>
+
+                    <HorizontalStackLayout
+                        HorizontalOptions="Center"
+                        Spacing="7"
+                        Padding="10,0">
+
+                        <ActivityIndicator
+                            x:Name="SearchSpinner"
+                            WidthRequest="18"
+                            HeightRequest="18"
+                            Color="{StaticResource PrimaryColor}"
+                            IsVisible="False"
+                            IsRunning="False"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            x:Name="SearchStatusLabel"
+                            Text="Type to search..."
+                            FontSize="10"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}"
+                            VerticalOptions="Center" />
+
+                    </HorizontalStackLayout>
+
+                    <Label
+                        Text="Suggestions"
+                        FontSize="11"
+                        FontAttributes="Bold"
+                        Padding="10,2"
+                        TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+                    <CollectionView
+                        x:Name="SearchSuggestions"
+                        HeightRequest="290"
+                        SelectionMode="None"
+                        IsVisible="False">
+
+                        <CollectionView.ItemTemplate>
+
+                            <DataTemplate>
+
+                                <Grid
+                                    Padding="10,9"
+                                    ColumnDefinitions="*,Auto"
+                                    ColumnSpacing="8">
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Tapped="SearchSuggestionTapped" />
+                                    </Grid.GestureRecognizers>
+
+                                    <VerticalStackLayout
+                                        Spacing="2">
+
+                                        <Label
+                                            Text="{Binding Name}"
+                                            FontSize="13"
+                                            FontAttributes="Bold"
+                                            TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                                        <Label
+                                            Text="{Binding ProductCode}"
+                                            FontSize="9"
+                                            TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+                                    </VerticalStackLayout>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding SaleRate, StringFormat='₹ {0:0.##}'}"
+                                        FontSize="11"
+                                        FontAttributes="Bold"
+                                        TextColor="{StaticResource PrimaryColor}"
+                                        VerticalOptions="Center" />
+
+                                </Grid>
+
+                            </DataTemplate>
+
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </Grid>
+
+
+        <!-- SORT BACKDROP -->
+
+        <Grid
+            x:Name="SortBackdrop"
+            IsVisible="False"
+            BackgroundColor="#35000000"
+            ZIndex="210">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="SortBackdropTapped" />
+            </Grid.GestureRecognizers>
+
+        </Grid>
+
+
+        <!-- SORT MENU -->
+
+        <Border
+            x:Name="SortMenu"
+            IsVisible="False"
+            WidthRequest="200"
+            Padding="6"
+            Margin="0,150,18,0"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+            Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 18"
+            ZIndex="220">
+
+            <VerticalStackLayout
+                x:Name="SortMenuContent"
+                Spacing="2">
+
+                <Label
+                    Text="Sort Products"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    Padding="10,7"
+                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                <Button
+                    Text="Select All"
+                    CommandParameter="SelectAll"
+                    Clicked="SelectAllClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Unselect All"
+                    CommandParameter="UnselectAll"
+                    Clicked="UnselectAllClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <BoxView
+                    HeightRequest="1"
+                    Margin="8,4"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" />
+
+                <Button
+                    Text="A-Z • Alphabetical"
+                    CommandParameter="AZ"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Price • Low to High"
+                    CommandParameter="PriceAsc"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Price • High to Low"
+                    CommandParameter="PriceDesc"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Newest Added"
+                    CommandParameter="Newest"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Stock • Low to High"
+                    CommandParameter="StockAsc"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Stock • High to Low"
+                    CommandParameter="StockDesc"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Low Stock First"
+                    CommandParameter="LowStock"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="SKU / Code • A-Z"
+                    CommandParameter="SKU"
+                    Clicked="SortOptionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+            </VerticalStackLayout>
+
+        </Border>
+
+
+        <!-- SELECTED ACTION BACKDROP -->
+
+        <Grid
+            x:Name="SelectionBackdrop"
+            IsVisible="False"
+            BackgroundColor="#35000000"
+            ZIndex="230">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="SelectionBackdropTapped" />
+            </Grid.GestureRecognizers>
+
+        </Grid>
+
+
+        <!-- SELECTED ACTION MENU -->
+
+        <Border
+            x:Name="SelectionMenu"
+            IsVisible="False"
+            MinimumWidthRequest="180"
+            MaximumWidthRequest="240"
+            Padding="6"
+            Margin="0,150,70,0"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+            Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 18"
+            ZIndex="240">
+
+            <VerticalStackLayout
+                Spacing="2">
+
+                <Label
+                    Text="Selected Products"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    Padding="10,7"
+                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                <Button
+                    Text="Select All"
+                    Clicked="SelectAllClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Unselect All"
+                    Clicked="UnselectAllClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <BoxView
+                    HeightRequest="1"
+                    Margin="8,4"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" />
+
+                <Button
+                    Text="Create Quotation"
+                    Clicked="CreateQuotationClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Create Purchase"
+                    Clicked="CreatePurchaseClicked"
+                    Style="{StaticResource StockSortButton}" />
+                
+                <Button
+                    Text="Create Invoice"
+                    Clicked="CreateInvoiceClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Add Stock"
+                    Clicked="CreateStockEntryClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+                <Button
+                    Text="Clear Selection"
+                    Clicked="ClearSelectionClicked"
+                    Style="{StaticResource StockSortButton}" />
+
+            </VerticalStackLayout>
+
+        </Border>
+
+
+        <!-- FLOATING ADD PRODUCT -->
+
+        <Border
+            WidthRequest="64"
+            HeightRequest="64"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Margin="0,0,40,105"
+            BackgroundColor="{StaticResource PrimaryColor}"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 22"
+            ZIndex="190">
+
+            <Border.Shadow>
+                <Shadow
+                    Brush="#77000000"
+                    Offset="0,5"
+                    Radius="14"
+                    Opacity="0.30" />
+            </Border.Shadow>
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="AddProductClicked" />
+            </Border.GestureRecognizers>
+
+            <Label
+                Text="+"
+                FontSize="32"
+                FontAttributes="Bold"
+                TextColor="White"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+
+        </Border>
+
+    </Grid>
+
+</ContentView>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="HisabKitab.Controls.ImagePreviewOverlay"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    IsVisible="False">
+    <Grid BackgroundColor="#99000000" Padding="18">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="BackdropTapped" />
+        </Grid.GestureRecognizers>
+
+        <Border
+            x:Name="PreviewCard"
+            MaximumWidthRequest="360"
+            MaximumHeightRequest="620"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Padding="12"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1A2016}"
+            Stroke="{AppThemeBinding Light=#E0E5D8, Dark=#343D2D}"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 22">
+            <Grid RowDefinitions="Auto,* ,Auto" RowSpacing="10">
+                <Grid ColumnDefinitions="*,40" ColumnSpacing="8">
+                    <Label x:Name="PreviewTitleLabel" Text="Image" FontSize="17" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#20251C, Dark=#F4F6EF}" VerticalOptions="Center" />
+                    <Border Grid.Column="1" WidthRequest="38" HeightRequest="38" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 12">
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="CloseTapped" /></Border.GestureRecognizers>
+                        <Label Text="×" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+                <Border Grid.Row="1" BackgroundColor="{AppThemeBinding Light=#F4F6EF, Dark=#10140E}" Stroke="Transparent" StrokeShape="RoundRectangle 16" Padding="4">
+                    <Image x:Name="PreviewImage" Aspect="AspectFit" HeightRequest="470" />
+                </Border>
+                <Label Grid.Row="2" Text="Tap outside or × to close" FontSize="10" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light=#737A6B, Dark=#A8AF9E}" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

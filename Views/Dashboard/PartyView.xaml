@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="HisabKitab.Views.Dashboard.PartyView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:HisabKitab.Controls"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+    <Grid x:Name="RootLayout">
+        <Grid x:Name="PartyListPage" RowDefinitions="Auto,Auto,Auto,*" IsVisible="True">
+            <Grid Grid.Row="0" Padding="20,22,20,12" ColumnDefinitions="*,48" ColumnSpacing="10">
+                <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                    <Label Text="Party" FontSize="27" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                    <Label Text="Manage customers and suppliers" FontSize="13" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                </VerticalStackLayout>
+
+                <Border Grid.Column="1" WidthRequest="48" HeightRequest="48" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SearchTapped" />
+                    </Border.GestureRecognizers>
+                    <Label Text="⌕" FontSize="29" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1" Padding="20,2,20,10" ColumnDefinitions="*,*">
+                <Border x:Name="CustomerTab" HeightRequest="44" BackgroundColor="{StaticResource PrimaryColor}" Stroke="Transparent" StrokeShape="RoundRectangle 15" Padding="12,0">
+                    <Border.GestureRecognizers><TapGestureRecognizer Tapped="CustomerTabTapped" /></Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="CustomerTabTextLabel" Text="Customers" FontSize="13" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" />
+                        <Label x:Name="CustomerCountTabLabel" Text="0" Grid.Column="1" FontSize="12" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+                <Border x:Name="SupplierTab" Grid.Column="1" Margin="8,0,0,0" HeightRequest="44" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 15" Padding="12,0">
+                    <Border.GestureRecognizers><TapGestureRecognizer Tapped="SupplierTabTapped" /></Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="SupplierTabTextLabel" Text="Suppliers" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" VerticalOptions="Center" />
+                        <Label x:Name="SupplierCountTabLabel" Text="0" Grid.Column="1" FontSize="12" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="2" Padding="20,0,20,10">
+                <Border x:Name="SearchFilterPill" IsVisible="False" HorizontalOptions="Start" Padding="11,7" BackgroundColor="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}" Stroke="{AppThemeBinding Light=#D6DECA, Dark=#36402F}" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                    <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="7">
+                        <Label x:Name="SearchFilterLabel" Text="Search" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" />
+                        <Border Grid.Column="1" WidthRequest="24" HeightRequest="24" BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}" Stroke="Transparent" StrokeShape="RoundRectangle 8">
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="ClearSearchTapped" /></Border.GestureRecognizers>
+                            <Label Text="×" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <RefreshView
+                x:Name="PartyRefreshView"
+                Grid.Row="3"
+                RefreshColor="{StaticResource PrimaryColor}"
+                Refreshing="PartyRefreshView_Refreshing">
+
+                <CollectionView
+                    x:Name="PartyCollectionView"
+                    SelectionMode="None"
+                    RemainingItemsThreshold="2"
+                    BackgroundColor="Transparent"
+                    Scrolled="PartyCollectionView_Scrolled">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="40,60" HorizontalOptions="Center" Spacing="8">
+                            <Label x:Name="EmptyIconLabel" Text="♙" FontSize="38" HorizontalOptions="Center" TextColor="{StaticResource PrimaryColor}" />
+                            <Label x:Name="EmptyTitleLabel" Text="No parties yet" FontSize="17" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Label Text="Create your first customer or supplier." FontSize="11" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="20,0,36,0" Padding="12" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 18">
+                                <Border.GestureRecognizers><TapGestureRecognizer Tapped="PartyCardTapped" /></Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="52,*,Auto" ColumnSpacing="10">
+                                    <Border Grid.Column="0" WidthRequest="52" HeightRequest="52" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 17">
+                                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="PartyListImageTapped" /></Border.GestureRecognizers>
+                                        <Grid>
+                                            <Label Text="{Binding Initials}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                            <Image Source="{Binding ImagePath}" IsVisible="{Binding HasImage}" Aspect="AspectFill" />
+                                        </Grid>
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                                        <Label Text="{Binding Name}" FontSize="15" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" LineBreakMode="TailTruncation" />
+                                        <Label Text="{Binding PartyCode}" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                        <Label Text="{Binding ContactSummary}" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Spacing="3">
+                                        <Border WidthRequest="76" HorizontalOptions="End" Padding="7,4" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 10">
+                                            <Label Text="{Binding PartyType}" FontSize="9" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{StaticResource PrimaryColor}" />
+                                        </Border>
+                                        <Label Text="{Binding BalanceText}" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HorizontalOptions="End" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
+
+        <Border
+            x:Name="PartyAddFab"
+            Grid.Row="3"
+            WidthRequest="62"
+            HeightRequest="62"
+            Margin="0,0,24,106"
+            Padding="0"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            BackgroundColor="{StaticResource PrimaryColor}"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 21"
+            ZIndex="70">
+
+            <Border.Shadow>
+                <Shadow
+                    Brush="#55000000"
+                    Offset="0,7"
+                    Radius="14"
+                    Opacity="0.28" />
+            </Border.Shadow>
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="AddButtonTapped" />
+            </Border.GestureRecognizers>
+
+            <Label
+                Text="＋"
+                FontSize="32"
+                FontAttributes="Bold"
+                TextColor="White"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+        </Border>
+
+        <Grid
+            x:Name="AlphabetIndexContainer"
+            Grid.RowSpan="4"
+            IsVisible="False"
+            HorizontalOptions="End"
+            VerticalOptions="Center"
+            Margin="0,80,5,40"
+            ZIndex="75"
+            InputTransparent="False">
+
+            <Border
+                x:Name="AlphabetTouchSurface"
+                WidthRequest="26"
+                Padding="3,5"
+                BackgroundColor="{AppThemeBinding Light=#F5F7F0, Dark=#10140E}"
+                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14">
+
+                <Border.GestureRecognizers>
+                    <PanGestureRecognizer PanUpdated="AlphabetPanUpdated" />
+                </Border.GestureRecognizers>
+
+                <VerticalStackLayout
+                    x:Name="AlphabetBar"
+                    Spacing="0"
+                    Padding="0"
+                    HorizontalOptions="Center" />
+
+            </Border>
+        </Grid>
+
+        <Border
+            x:Name="AlphabetBubble"
+            WidthRequest="68"
+            HeightRequest="68"
+            IsVisible="False"
+            HorizontalOptions="End"
+            VerticalOptions="Center"
+            Margin="0,0,74,0"
+            BackgroundColor="{StaticResource PrimaryColor}"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 34"
+            ZIndex="76"
+            InputTransparent="True">
+
+            <Label
+                x:Name="AlphabetBubbleLabel"
+                Text="A"
+                FontSize="25"
+                FontAttributes="Bold"
+                TextColor="White"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                HorizontalTextAlignment="Center" />
+        </Border>
+
+        <Grid x:Name="AddMenuBackdrop" IsVisible="False" BackgroundColor="#33000000" ZIndex="80">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="AddMenuBackdropTapped" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+        <Border x:Name="AddMenu" IsVisible="False" WidthRequest="190" Padding="7" HorizontalOptions="End" VerticalOptions="End" Margin="0,0,20,176" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 16" ZIndex="90">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Add party" FontSize="12" FontAttributes="Bold" Padding="9,6" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                <Button Text="Add Customer" Clicked="AddCustomerClicked" Style="{StaticResource StockSortButton}" />
+                <Button Text="Add Supplier" Clicked="AddSupplierClicked" Style="{StaticResource StockSortButton}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid x:Name="SearchBackdrop" IsVisible="False" BackgroundColor="#55000000" ZIndex="100">
+            <Grid.GestureRecognizers><TapGestureRecognizer Tapped="SearchBackdropTapped" /></Grid.GestureRecognizers>
+        </Grid>
+
+        <Border x:Name="SearchPanel" IsVisible="False" Margin="16,52,16,0" Padding="12" VerticalOptions="Start" BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 22" ZIndex="110">
+            <VerticalStackLayout Spacing="8">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                    <Label Text="⌕" FontSize="26" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" />
+                    <Entry x:Name="PartySearchBar" Grid.Column="1" Placeholder="Search name, code, mobile, email..." HorizontalTextAlignment="Center" FontSize="14" TextChanged="PartySearchBar_TextChanged" Completed="PartySearchBar_Completed" />
+                    <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 11">
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="CloseSearchTapped" /></Border.GestureRecognizers>
+                        <Label Text="×" FontSize="20" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+                <Label x:Name="SearchStatusLabel" Text="Type to search" FontSize="11" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                <ActivityIndicator x:Name="SearchSpinner" IsVisible="False" IsRunning="False" Color="{StaticResource PrimaryColor}" HorizontalOptions="Center" WidthRequest="24" HeightRequest="24" />
+                <CollectionView x:Name="PartySearchSuggestions" HeightRequest="190" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="10,8" Margin="2,2" BackgroundColor="Transparent" Stroke="Transparent">
+                                <Border.GestureRecognizers><TapGestureRecognizer Tapped="PartySuggestionTapped" /></Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="{Binding Name}" FontSize="13" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                                        <Label Text="{Binding ContactSummary}" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                                    </VerticalStackLayout>
+                                    <Label Text="{Binding PartyType}" Grid.Column="1" FontSize="9" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid x:Name="PartySkeleton" IsVisible="True" Grid.Row="3" ZIndex="60" InputTransparent="False" BackgroundColor="{AppThemeBinding Light=#F5F7F0, Dark=#10140E}">
+            <ScrollView>
+                <VerticalStackLayout Padding="20,8,36,120" Spacing="10">
+                    <Border HeightRequest="82" Style="{StaticResource SkeletonProductCard}" />
+                    <Border HeightRequest="82" Style="{StaticResource SkeletonProductCard}" />
+                    <Border HeightRequest="82" Style="{StaticResource SkeletonProductCard}" />
+                    <Border HeightRequest="82" Style="{StaticResource SkeletonProductCard}" />
+                    <Border HeightRequest="82" Style="{StaticResource SkeletonProductCard}" />
+                </VerticalStackLayout>
+            </ScrollView>
+            <Border x:Name="SkeletonWave" WidthRequest="110" HorizontalOptions="Start" VerticalOptions="Fill" InputTransparent="True" Opacity="0.45" Stroke="Transparent">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#00FFFFFF" Offset="0" />
+                        <GradientStop Color="#99FFFFFF" Offset="0.5" />
+                        <GradientStop Color="#00FFFFFF" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
+    
+        <controls:ImagePreviewOverlay
+            x:Name="PartyListImagePreview"
+            Grid.RowSpan="4"
+            ZIndex="500" />
+</Grid>
+</ContentView>

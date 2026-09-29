@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="HisabKitab.Views.StartupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{AppThemeBinding
+        Light=#F5F7F0,
+        Dark=#10140E}"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Spacing="14">
+
+            <Border
+                WidthRequest="80"
+                HeightRequest="80"
+                BackgroundColor="{StaticResource PrimaryColor}"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 24">
+
+                <Label
+                    Text="H"
+                    FontSize="40"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+
+            </Border>
+
+            <Label
+                Text="Hisab Kitab"
+                FontSize="28"
+                FontAttributes="Bold"
+                TextColor="{AppThemeBinding
+                    Light=#20251C,
+                    Dark=#F4F6EF}"
+                HorizontalOptions="Center" />
+
+            <ActivityIndicator
+                IsRunning="True"
+                Color="#718238"
+                WidthRequest="36"
+                HeightRequest="36" />
+
+            <Label
+                Text="Checking your account..."
+                FontSize="12"
+                TextColor="{AppThemeBinding
+                    Light=#737A6B,
+                    Dark=#A8AF9E}"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

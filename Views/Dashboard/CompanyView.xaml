@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="HisabKitab.Views.Dashboard.CompanyView" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" BackgroundColor="{AppThemeBinding Light=#F5F7F0, Dark=#10140E}">
+    <Grid RowDefinitions="Auto,*">
+        <Grid Padding="20,22,20,14" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+            <Border WidthRequest="42" HeightRequest="42" BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}" Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" StrokeShape="RoundRectangle 13">
+                <Label Text="‹" FontSize="27" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Border.GestureRecognizers><TapGestureRecognizer Tapped="BackButtonTapped" /></Border.GestureRecognizers>
+            </Border>
+            <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center"><Label Text="My Business" FontSize="22" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#20251C, Dark=#F4F6EF}"/><Label Text="Select your default company" FontSize="12" TextColor="{StaticResource TextSecondaryColor}"/></VerticalStackLayout>
+            <Button Grid.Column="2" Text="+ Add" HeightRequest="42" CornerRadius="13" Padding="14,0" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" FontAttributes="Bold" Clicked="AddCompanyButtonClicked" />
+        </Grid>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,8,20,120" Spacing="14">
+                <Border BackgroundColor="{StaticResource PrimaryColor}" Stroke="Transparent" StrokeShape="RoundRectangle 20" Padding="18"><VerticalStackLayout Spacing="4"><Label Text="DEFAULT COMPANY" FontSize="10" FontAttributes="Bold" TextColor="#E7ECD9"/><Label x:Name="DefaultCompanyLabel" Text="No company selected" FontSize="18" FontAttributes="Bold" TextColor="White"/><Label Text="This company will open by default in the app." FontSize="11" TextColor="#EEF2E3"/></VerticalStackLayout></Border>
+                <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0"><Label Text="Your Companies" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#20251C, Dark=#F4F6EF}"/><Label x:Name="CompanyCountLabel" Grid.Column="1" Text="0" FontSize="12" TextColor="{StaticResource TextSecondaryColor}" VerticalOptions="Center"/></Grid>
+                <CollectionView x:Name="CompanyList" SelectionMode="Single" SelectionChanged="CompanyList_SelectionChanged" EmptyView="No company found.">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}" Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16" Margin="0,0,0,10">
+                                <Grid ColumnDefinitions="46,*,Auto" ColumnSpacing="12">
+                                    <Border WidthRequest="42" HeightRequest="42" BackgroundColor="#E9EEDC" Stroke="Transparent" StrokeShape="RoundRectangle 13">
+                                        <Grid>
+                                            <Image Source="{Binding LogoPath}" Aspect="AspectFill" IsVisible="{Binding HasLogo}" />
+                                            <Label Text="{Binding Initials}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding HasNoLogo}" />
+                                        </Grid>
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center"><Label Text="{Binding Company.CompanyName}" FontSize="15" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#20251C, Dark=#F4F6EF}"/><Label Text="{Binding Company.Mobile}" FontSize="11" TextColor="{StaticResource TextSecondaryColor}"/></VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Spacing="5">
+                                        <Button Text="Logo" HeightRequest="28" CornerRadius="9" Padding="10,0" FontSize="9" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" TextColor="{StaticResource PrimaryColor}" FontAttributes="Bold" Clicked="CompanyLogoButtonClicked" CommandParameter="{Binding Company.Id}" />
+                                        <Label Text="DEFAULT" FontSize="8" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" IsVisible="{Binding IsDefault}" HorizontalOptions="End"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

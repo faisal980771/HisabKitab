@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="HisabKitab.Views.StockPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <VerticalStackLayout
+        Padding="20"
+        Spacing="15">
+
+        <Label
+            Text="Stock"
+            Style="{StaticResource TitleLabel}" />
+
+        <Label
+            Text="Products and inventory"
+            Style="{StaticResource SubtitleLabel}" />
+
+        <Grid
+            ColumnDefinitions="*,*"
+            ColumnSpacing="12">
+
+            <Border
+                Style="{StaticResource CardStyle}">
+
+                <VerticalStackLayout>
+
+                    <Label
+                        Text="Products"
+                        Style="{StaticResource SubtitleLabel}" />
+
+                    <Label
+                        Text="0"
+                        FontSize="25"
+                        FontAttributes="Bold" />
+
+                </VerticalStackLayout>
+
+            </Border>
+
+            <Border
+                Grid.Column="1"
+                Style="{StaticResource CardStyle}">
+
+                <VerticalStackLayout>
+
+                    <Label
+                        Text="Low Stock"
+                        Style="{StaticResource SubtitleLabel}" />
+
+                    <Label
+                        Text="0"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource WarningColor}" />
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </Grid>
+
+        <Button
+            Text="+ Add Product"
+            HeightRequest="52"
+            CornerRadius="14"
+            BackgroundColor="{StaticResource PrimaryColor}"
+            TextColor="White"
+            FontAttributes="Bold" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

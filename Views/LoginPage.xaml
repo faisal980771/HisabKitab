@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="HisabKitab.Views.LoginPage"
+    xmlns:controls="clr-namespace:HisabKitab.Controls"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{AppThemeBinding
+        Light=#F5F7F0,
+        Dark=#10140E}"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid>
+
+        <ScrollView>
+
+            <VerticalStackLayout
+                Padding="24,42,24,28"
+                Spacing="0">
+
+                <!-- ================= LOGO ================= -->
+
+                <Border
+                    WidthRequest="78"
+                    HeightRequest="78"
+                    HorizontalOptions="Center"
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 24">
+
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="#44000000"
+                            Offset="0,6"
+                            Radius="14"
+                            Opacity="0.20" />
+                    </Border.Shadow>
+
+                    <Label
+                        Text="H"
+                        FontSize="40"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+
+                </Border>
+
+
+                <!-- ================= APP NAME ================= -->
+
+                <Label
+                    Text="Hisab Kitab"
+                    FontSize="30"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    TextColor="{AppThemeBinding
+                        Light=#20251C,
+                        Dark=#F4F6EF}"
+                    Margin="0,18,0,0" />
+
+                <Label
+                    Text="Simple accounting for your business"
+                    FontSize="13"
+                    HorizontalOptions="Center"
+                    TextColor="{AppThemeBinding
+                        Light=#737A6B,
+                        Dark=#A8AF9E}"
+                    Margin="0,4,0,30" />
+
+
+                <!-- ================= LOGIN CARD ================= -->
+
+                <Border
+                    BackgroundColor="{AppThemeBinding
+                        Light=#FFFFFF,
+                        Dark=#1A2016}"
+                    Stroke="{AppThemeBinding
+                        Light=#E3E7DC,
+                        Dark=#30382B}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 24"
+                    Padding="22">
+
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="#33000000"
+                            Offset="0,6"
+                            Radius="16"
+                            Opacity="0.15" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout
+                        Spacing="0">
+
+                        <!-- HEADER -->
+
+                        <Label
+                            Text="Welcome back"
+                            FontSize="23"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding
+                                Light=#20251C,
+                                Dark=#F4F6EF}" />
+
+                        <Label
+                            Text="Sign in to continue to your business"
+                            FontSize="13"
+                            TextColor="{AppThemeBinding
+                                Light=#737A6B,
+                                Dark=#A8AF9E}"
+                            Margin="0,7,0,26" />
+
+
+                        <!-- GOOGLE BUTTON -->
+
+                        <Button
+                            Text="Continue with Google"
+                            HeightRequest="56"
+                            CornerRadius="16"
+                            BackgroundColor="{AppThemeBinding
+                                Light=#FFFFFF,
+                                Dark=#20261B}"
+                            TextColor="{AppThemeBinding
+                                Light=#20251C,
+                                Dark=#F4F6EF}"
+                            BorderColor="{AppThemeBinding
+                                Light=#D9E0D0,
+                                Dark=#3B4733}"
+                            BorderWidth="1"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            Padding="16,0"
+                            Clicked="GoogleLoginClicked" />
+
+
+                        <!-- SECURE DIVIDER -->
+
+                        <Grid
+                            Margin="0,24,0,20"
+                            ColumnDefinitions="*,Auto,*">
+
+                            <BoxView
+                                HeightRequest="1"
+                                VerticalOptions="Center"
+                                BackgroundColor="{AppThemeBinding
+                                    Light=#E3E7DC,
+                                    Dark=#30382B}" />
+
+                            <Border
+                                Grid.Column="1"
+                                BackgroundColor="{AppThemeBinding
+                                    Light=#F1F4EB,
+                                    Dark=#232B1F}"
+                                Stroke="Transparent"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="9,4">
+
+                                <Label
+                                    Text="Secure Login"
+                                    FontSize="10"
+                                    FontAttributes="Bold"
+                                    TextColor="{AppThemeBinding
+                                        Light=#737A6B,
+                                        Dark=#A8AF9E}" />
+
+                            </Border>
+
+                            <BoxView
+                                Grid.Column="2"
+                                HeightRequest="1"
+                                VerticalOptions="Center"
+                                BackgroundColor="{AppThemeBinding
+                                    Light=#E3E7DC,
+                                    Dark=#30382B}" />
+
+                        </Grid>
+
+
+                        <!-- DEVICE INFO -->
+
+                        <Border
+                            BackgroundColor="{AppThemeBinding
+                                Light=#F5F7F0,
+                                Dark=#20261B}"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="14">
+
+                            <Grid
+                                ColumnDefinitions="42,*"
+                                ColumnSpacing="12">
+
+                                <Border
+                                    WidthRequest="38"
+                                    HeightRequest="38"
+                                    BackgroundColor="{AppThemeBinding
+                                        Light=#EAF0DE,
+                                        Dark=#2A351F}"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 12">
+
+                                    <Label
+                                        Text="✓"
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        TextColor="{StaticResource PrimaryColor}"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center" />
+
+                                </Border>
+
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="2"
+                                    VerticalOptions="Center">
+
+                                    <Label
+                                        Text="Your data stays on your device"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        TextColor="{AppThemeBinding
+                                            Light=#20251C,
+                                            Dark=#F4F6EF}" />
+
+                                    <Label
+                                        Text="Secure local storage with Google Drive backup"
+                                        FontSize="10"
+                                        TextColor="{AppThemeBinding
+                                            Light=#737A6B,
+                                            Dark=#A8AF9E}" />
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+
+                <!-- FOOTER -->
+
+                <VerticalStackLayout
+                    Spacing="5"
+                    Margin="10,26,10,0">
+
+                    <Label
+                        Text="By continuing, you agree to use Hisab Kitab"
+                        FontSize="10"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{AppThemeBinding
+                            Light=#8A9180,
+                            Dark=#858E7B}" />
+
+                    <Label
+                        Text="© 2026 Hisab Kitab"
+                        FontSize="10"
+                        HorizontalOptions="Center"
+                        TextColor="#9CA3AF" />
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+        <controls:LoadingOverlay
+        x:Name="Loader" />
+
+    </Grid>
+
+</ContentPage>

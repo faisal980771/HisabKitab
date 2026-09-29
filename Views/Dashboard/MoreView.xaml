@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="HisabKitab.Views.Dashboard.MoreView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+    <RefreshView
+        x:Name="MoreRefreshView"
+        RefreshColor="{StaticResource PrimaryColor}"
+        Refreshing="MoreRefreshView_Refreshing">
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20,22,20,150" Spacing="16">
+
+                <Label Text="More" FontSize="27" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                <Label Text="Masters and app settings" FontSize="13" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+
+                <Border
+                    BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                    Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="17">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="UnitMasterTapped" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="48,*,30" ColumnSpacing="12">
+                        <Border WidthRequest="46" HeightRequest="46" BackgroundColor="{AppThemeBinding Light=#EEF2E3, Dark=#29321F}" Stroke="Transparent" StrokeShape="RoundRectangle 14">
+                            <Label Text="U" FontSize="20" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                            <Label Text="Unit Master" FontSize="15" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                            <Label Text="Manage Piece, Kg, Box and other units" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                        </VerticalStackLayout>
+
+                        <Label Grid.Column="2" Text="›" FontSize="26" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" VerticalOptions="Center" HorizontalOptions="End" />
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="17">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Party Master" FontSize="15" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                        <Label Text="Customers and suppliers will be managed here." FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentView>

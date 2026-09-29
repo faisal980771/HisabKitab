@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="HisabKitab.Views.Dashboard.UnitMasterView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Grid Padding="20,18,20,10" ColumnDefinitions="44,*,44">
+
+            <Border
+                WidthRequest="42"
+                HeightRequest="42"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BackTapped" />
+                </Border.GestureRecognizers>
+
+                <Label
+                    Text="‹"
+                    FontSize="29"
+                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+            </Border>
+
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                <Label
+                    Text="Unit Master"
+                    FontSize="21"
+                    FontAttributes="Bold"
+                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+
+                <Label
+                    Text="Manage product units"
+                    FontSize="11"
+                    TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+            </VerticalStackLayout>
+
+            <Border
+                Grid.Column="2"
+                WidthRequest="42"
+                HeightRequest="42"
+                BackgroundColor="{StaticResource PrimaryColor}"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 14">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="AddUnitTapped" />
+                </Border.GestureRecognizers>
+
+                <Label
+                    Text="+"
+                    FontSize="25"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <RefreshView
+            Grid.Row="1"
+            x:Name="UnitRefreshView"
+            RefreshColor="{StaticResource PrimaryColor}"
+            Refreshing="UnitRefreshView_Refreshing">
+
+            <ScrollView>
+                <VerticalStackLayout Padding="20,8,20,150" Spacing="10">
+                    <VerticalStackLayout x:Name="UnitListContainer" Spacing="10" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentView>

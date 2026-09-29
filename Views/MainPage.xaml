@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="HisabKitab.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:HisabKitab.Views"
+    xmlns:controls="clr-namespace:HisabKitab.Controls"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+
+        <!-- MAIN CONTENT -->
+
+        <ContentView
+            x:Name="PageContainer"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+            ZIndex="0" />
+
+
+        <!-- PAGE SKELETON -->
+
+        <controls:SkeletonOverlay
+            x:Name="PageSkeleton"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+            IsVisible="False"
+            IsEnabled="False"
+            InputTransparent="True"
+            ZIndex="50" />
+
+
+        <!-- GLOBAL TOAST -->
+
+        <controls:AppToast
+            x:Name="GlobalToast"
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            ZIndex="200" />
+
+
+        <!-- BOTTOM NAVIGATION -->
+
+        <views:BottomNavBar
+            x:Name="BottomNavigation"
+            HeightRequest="88"
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            ZIndex="100" />
+
+    </Grid>
+
+</ContentPage>

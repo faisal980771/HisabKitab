@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="HisabKitab.Views.BottomNavBar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    HeightRequest="88"
+    HorizontalOptions="Fill"
+    VerticalOptions="End">
+
+    <Border
+        Margin="12,4,12,10"
+        Padding="6"
+        BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+        Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 26">
+
+        <Border.Shadow>
+            <Shadow Brush="#44000000" Offset="0,4" Radius="14" Opacity="0.18" />
+        </Border.Shadow>
+
+        <Grid x:Name="NavGrid" ColumnDefinitions="*,*,*,*,*" Padding="2">
+
+            <Border
+                x:Name="ActivePill"
+                BackgroundColor="{AppThemeBinding Light=#EEF2E3, Dark=#29321F}"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 20"
+                Margin="1,2"
+                HorizontalOptions="Start"
+                VerticalOptions="Fill"
+                ZIndex="0" />
+
+            <Grid
+                Grid.ColumnSpan="5"
+                ColumnDefinitions="*,*,*,*,*"
+                ZIndex="10">
+
+                <Grid Grid.Column="0" RowDefinitions="28,18">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavTapped" CommandParameter="Home" />
+                    </Grid.GestureRecognizers>
+                    <Image Source="home.svg" HeightRequest="21" WidthRequest="21" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label x:Name="HomeLabel" Text="Home" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="1" RowDefinitions="28,18">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavTapped" CommandParameter="Bill" />
+                    </Grid.GestureRecognizers>
+                    <Image Source="invoice.svg" HeightRequest="21" WidthRequest="21" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label x:Name="BillLabel" Text="Bill" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="2" RowDefinitions="28,18">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavTapped" CommandParameter="Party" />
+                    </Grid.GestureRecognizers>
+                    <Image Source="customer.svg" HeightRequest="21" WidthRequest="21" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label x:Name="PartyLabel" Text="Party" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="3" RowDefinitions="28,18">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavTapped" CommandParameter="Stock" />
+                    </Grid.GestureRecognizers>
+                    <Image Source="stock.svg" HeightRequest="21" WidthRequest="21" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label x:Name="StockLabel" Text="Stock" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="4" RowDefinitions="28,18">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavTapped" CommandParameter="More" />
+                    </Grid.GestureRecognizers>
+                    <Image Source="more.svg" HeightRequest="21" WidthRequest="21" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label x:Name="MoreLabel" Text="More" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Border>
+</ContentView>

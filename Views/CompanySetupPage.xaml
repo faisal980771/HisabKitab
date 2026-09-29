@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="HisabKitab.Views.CompanySetupPage"
+    xmlns:controls="clr-namespace:HisabKitab.Controls"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{AppThemeBinding Light=#F5F7F0, Dark=#10140E}"
+    Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="Auto,*">
+        <Border
+            Grid.Row="0"
+            BackgroundColor="{StaticResource PrimaryColor}"
+            Padding="24,45,24,28"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 0,0,0,28">
+            <VerticalStackLayout Spacing="5">
+                <Label
+                    Text="Let's set up your business"
+                    FontSize="26"
+                    FontAttributes="Bold"
+                    TextColor="White" />
+                <Label
+                    x:Name="WelcomeNameLabel"
+                    FontSize="14"
+                    TextColor="#E7ECD9" />
+                <Label
+                    Text="You can add more companies later."
+                    FontSize="12"
+                    TextColor="#DCE4C9"
+                    Margin="0,5,0,0" />
+            </VerticalStackLayout>
+        </Border>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,20,20,40" Spacing="16">
+                <Border BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}" Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="14">
+                    <Grid ColumnDefinitions="78,*,Auto" ColumnSpacing="12">
+                        <Border WidthRequest="72" HeightRequest="72" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 18">
+                            <Image x:Name="CompanyLogoImage" Source="appicon.svg" Aspect="AspectFit" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                            <Label Text="Business logo" FontSize="15" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#20251C, Dark=#F4F6EF}" />
+                            <Label Text="Shown on invoice PDF templates" FontSize="10" TextColor="{AppThemeBinding Light=#737A6B, Dark=#A8AF9E}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="2" Text="Upload" HeightRequest="36" CornerRadius="10" Padding="12,0" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" FontAttributes="Bold" FontSize="10" Clicked="UploadCompanyLogoClicked" />
+                    </Grid>
+                </Border>
+
+                <Border
+                    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}"
+                    Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+                    <VerticalStackLayout Spacing="8">
+                        <Label
+                            Text="Company / Business Name *"
+                            FontAttributes="Bold"
+                            FontSize="13" />
+                        <Entry
+                            x:Name="CompanyNameEntry"
+                            Placeholder="e.g. ABC Traders"
+                            FontSize="15"
+                            ClearButtonVisibility="WhileEditing" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border
+                    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}"
+                    Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label
+                            Text="Contact Details"
+                            FontAttributes="Bold"
+                            FontSize="16" />
+                        <Entry
+                            x:Name="OwnerNameEntry"
+                            Placeholder="Owner / Contact person" />
+                        <Entry
+                            x:Name="MobileEntry"
+                            Placeholder="Mobile number *"
+                            Keyboard="Telephone"
+                            MaxLength="10" />
+                        <Entry
+                            x:Name="EmailEntry"
+                            Placeholder="Business email"
+                            Keyboard="Email" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border
+                    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}"
+                    Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label
+                            Text="Business Details"
+                            FontAttributes="Bold"
+                            FontSize="16" />
+                        <Picker
+                            x:Name="IndustryPicker"
+                            Title="Industry type *">
+                            <Picker.Items>
+                                <x:String>Retail</x:String>
+                                <x:String>Wholesale</x:String>
+                                <x:String>Manufacturing</x:String>
+                                <x:String>Services</x:String>
+                                <x:String>Trading</x:String>
+                                <x:String>Restaurant / Food</x:String>
+                                <x:String>Construction</x:String>
+                                <x:String>Professional Services</x:String>
+                                <x:String>Other</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <Picker
+                            x:Name="BusinessTypePicker"
+                            Title="Business structure">
+                            <Picker.Items>
+                                <x:String>Sole Proprietorship</x:String>
+                                <x:String>Partnership</x:String>
+                                <x:String>LLP</x:String>
+                                <x:String>Private Limited</x:String>
+                                <x:String>Public Limited</x:String>
+                                <x:String>Other</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <Entry
+                            x:Name="GSTINEntry"
+                            Placeholder="GSTIN (optional)"
+                            TextTransform="Uppercase"
+                            MaxLength="15" />
+                        <Entry
+                            x:Name="PANEntry"
+                            Placeholder="PAN (optional)"
+                            TextTransform="Uppercase"
+                            MaxLength="10" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border
+                    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A2016}"
+                    Stroke="{AppThemeBinding Light=#E3E7DC, Dark=#30382B}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label
+                            Text="Business Address"
+                            FontAttributes="Bold"
+                            FontSize="16" />
+                        <Editor
+                            x:Name="AddressEditor"
+                            Placeholder="Address"
+                            AutoSize="TextChanges"
+                            HeightRequest="80" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Entry
+                                x:Name="CityEntry"
+                                Placeholder="City" />
+                            <Entry
+                                Grid.Column="1"
+                                x:Name="StateEntry"
+                                Placeholder="State" />
+                        </Grid>
+                        <Entry
+                            x:Name="PincodeEntry"
+                            Placeholder="Pincode"
+                            Keyboard="Numeric"
+                            MaxLength="6" />
+                    </VerticalStackLayout>
+                </Border>
+                <Button
+                    x:Name="CreateCompanyButton"
+                    Text="Create Company"
+                    HeightRequest="54"
+                    CornerRadius="16"
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    Clicked="CreateCompanyClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:LoadingOverlay
+            x:Name="Loader"
+            Grid.Row="0"
+            Grid.RowSpan="2" />
+    </Grid>
+</ContentPage>

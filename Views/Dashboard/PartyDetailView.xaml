@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="HisabKitab.Views.Dashboard.PartyDetailView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:HisabKitab.Controls"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Grid Padding="20,18,20,10" ColumnDefinitions="44,*,44" ColumnSpacing="8">
+            <Border WidthRequest="42" HeightRequest="42" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BackTapped" />
+                </Border.GestureRecognizers>
+                <Label Text="‹" FontSize="29" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                <Label x:Name="TitleLabel" Text="Party" FontSize="21" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                <Label Text="360° party view" FontSize="11" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+            </VerticalStackLayout>
+
+            <Border
+                Grid.Column="2"
+                WidthRequest="40"
+                HeightRequest="40"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+                Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 13">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ActionsTapped" />
+                </Border.GestureRecognizers>
+
+                <Label
+                    Text="⋮"
+                    FontSize="26"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource PrimaryColor}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+                <Grid
+            x:Name="ActionMenuBackdrop"
+            IsVisible="False"
+            BackgroundColor="#33000000"
+            ZIndex="80">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ActionMenuBackdropTapped" />
+            </Grid.GestureRecognizers>
+
+        </Grid>
+
+        <Border
+            x:Name="ActionMenu"
+            IsVisible="False"
+            WidthRequest="156"
+            Padding="7"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            Margin="0,64,20,0"
+            BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}"
+            Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 16"
+            ZIndex="90">
+
+            <VerticalStackLayout Spacing="3">
+
+                <Button
+                    Text="Edit Party"
+                    Clicked="EditActionClicked"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    HeightRequest="40"
+                    CornerRadius="10" />
+
+                <Button
+                    Text="Delete Party"
+                    Clicked="DeleteActionClicked"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource DangerColor}"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    HeightRequest="40"
+                    CornerRadius="10" />
+
+            </VerticalStackLayout>
+        </Border>
+
+<Border Grid.Row="1" Margin="20,2,20,10" Padding="16" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeThickness="1" StrokeShape="RoundRectangle 20">
+            <Grid ColumnDefinitions="60,*,Auto" ColumnSpacing="12">
+                <Border WidthRequest="60" HeightRequest="60" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 20">
+                    <Border.GestureRecognizers><TapGestureRecognizer Tapped="PartyImageTapped" /></Border.GestureRecognizers>
+                    <Grid>
+                        <Image x:Name="PartyImage" Aspect="AspectFill" IsVisible="False" />
+                        <Label x:Name="InitialsLabel" Text="P" FontSize="21" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                    <Label x:Name="PartyNameLabel" Text="Party" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" />
+                    <Label x:Name="PartyContactLabel" Text="" FontSize="11" LineBreakMode="TailTruncation" TextColor="{AppThemeBinding Light={StaticResource LightSecondaryText}, Dark={StaticResource DarkSecondaryText}}" />
+                    <Label x:Name="PartyBalanceHeaderLabel" Text="Balance  ₹ 0.00" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" />
+                </VerticalStackLayout>
+                <Border Grid.Column="2" Padding="8,5" BackgroundColor="{AppThemeBinding Light=#EEF2E5, Dark=#283021}" Stroke="Transparent" StrokeShape="RoundRectangle 10" VerticalOptions="Center">
+                    <Label x:Name="PartyTypeLabel" Text="Customer" FontSize="9" FontAttributes="Bold" TextColor="{StaticResource PrimaryColor}" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2" RowDefinitions="Auto,*">
+            <Grid Padding="20,0,20,10" ColumnDefinitions="*,*,*,*" ColumnSpacing="6">
+                <Border x:Name="OverviewTab" HeightRequest="40" BackgroundColor="{StaticResource PrimaryColor}" Stroke="Transparent" StrokeShape="RoundRectangle 12"><Border.GestureRecognizers><TapGestureRecognizer Tapped="OverviewTapped" /></Border.GestureRecognizers><Label Text="Overview" FontSize="10" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" /></Border>
+                <Border x:Name="BillingTab" Grid.Column="1" HeightRequest="40" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeShape="RoundRectangle 12"><Border.GestureRecognizers><TapGestureRecognizer Tapped="BillingTapped" /></Border.GestureRecognizers><Label Text="Billing" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HorizontalOptions="Center" VerticalOptions="Center" /></Border>
+                <Border x:Name="ShippingTab" Grid.Column="2" HeightRequest="40" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeShape="RoundRectangle 12"><Border.GestureRecognizers><TapGestureRecognizer Tapped="ShippingTapped" /></Border.GestureRecognizers><Label Text="Shipping" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HorizontalOptions="Center" VerticalOptions="Center" /></Border>
+                <Border x:Name="TimelineTab" Grid.Column="3" HeightRequest="40" BackgroundColor="{AppThemeBinding Light={StaticResource LightCard}, Dark={StaticResource DarkCard}}" Stroke="{AppThemeBinding Light={StaticResource LightBorder}, Dark={StaticResource DarkBorder}}" StrokeShape="RoundRectangle 12"><Border.GestureRecognizers><TapGestureRecognizer Tapped="TimelineTapped" /></Border.GestureRecognizers><Label Text="Timeline" FontSize="10" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource LightText}, Dark={StaticResource DarkText}}" HorizontalOptions="Center" VerticalOptions="Center" /></Border>
+            </Grid>
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout x:Name="DetailContent" Padding="20,4,20,155" Spacing="12" />
+            </ScrollView>
+        </Grid>
+    
+    <controls:ImagePreviewOverlay
+        x:Name="PartyDetailImagePreview"
+        Grid.RowSpan="3"
+        ZIndex="200" />
+</Grid>
+</ContentView>

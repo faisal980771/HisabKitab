@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<Application
+    x:Class="HisabKitab.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+            <!-- Primary -->
+            <Color x:Key="PrimaryColor">#718238</Color>
+            <Color x:Key="PrimaryDarkColor">#5D6B2D</Color>
+
+            <!-- Light -->
+            <Color x:Key="LightBackground">#F5F7F0</Color>
+            <Color x:Key="LightCard">#FFFFFF</Color>
+            <Color x:Key="LightText">#20251C</Color>
+            <Color x:Key="LightSecondaryText">#737A6B</Color>
+            <Color x:Key="LightBorder">#E3E7DC</Color>
+
+            <!-- Dark -->
+            <Color x:Key="DarkBackground">#10140E</Color>
+            <Color x:Key="DarkCard">#1A2016</Color>
+            <Color x:Key="DarkText">#F4F6EF</Color>
+            <Color x:Key="DarkSecondaryText">#A8AF9E</Color>
+            <Color x:Key="DarkBorder">#30382B</Color>
+
+            <!-- Status -->
+            <Color x:Key="SuccessColor">#4F9D5F</Color>
+            <Color x:Key="WarningColor">#D9943B</Color>
+            <Color x:Key="DangerColor">#C95D5D</Color>
+
+            <!-- Login Page -->
+            <Color x:Key="PageBackgroundColor">#F5F7F0</Color>
+            <Color x:Key="TextPrimaryColor">#20251C</Color>
+            <Color x:Key="TextSecondaryColor">#737A6B</Color>
+
+            <!-- ========================================== -->
+            <!-- SKELETON STYLES -->
+            <!-- ========================================== -->
+            <!-- SKELETON BAR -->
+
+            <Style
+    x:Key="SkeletonBox"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 14" />
+
+            </Style>
+
+            <Style
+    x:Key="SkeletonBar"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E1E6D7, Dark=#283021}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 7" />
+
+            </Style>
+
+
+            <!-- SKELETON TITLE -->
+
+            <Style
+    x:Key="SkeletonTitle"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#D8DECC, Dark=#303A28}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 9" />
+
+            </Style>
+
+
+            <!-- SKELETON NUMBER -->
+
+            <Style
+    x:Key="SkeletonNumber"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#D8DECC, Dark=#303A28}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 8" />
+
+            </Style>
+
+
+            <!-- SKELETON ICON -->
+
+            <Style
+    x:Key="SkeletonIcon"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#DEE4D3, Dark=#2C3525}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 15" />
+
+            </Style>
+
+
+            <!-- SKELETON CARD -->
+
+            <Style
+    x:Key="SkeletonCard"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 18" />
+
+            </Style>
+
+
+            <!-- SKELETON WIDE CARD -->
+
+            <Style
+    x:Key="SkeletonWideCard"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 17" />
+
+            </Style>
+
+
+            <!-- SKELETON HERO -->
+
+            <Style
+    x:Key="SkeletonHeroCard"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#DDE4CF, Dark=#2C3524}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 20" />
+
+            </Style>
+
+
+            <!-- SKELETON SUMMARY -->
+
+            <Style
+    x:Key="SkeletonSummaryCard"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E8ECE0, Dark=#222A1D}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 20" />
+
+            </Style>
+
+
+            <!-- SKELETON PRODUCT -->
+
+            <Style
+    x:Key="SkeletonProductCard"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 17" />
+
+            </Style>
+
+
+            <!-- SKELETON SEARCH -->
+
+            <Style
+    x:Key="SkeletonSearch"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 16" />
+
+            </Style>
+
+
+            <!-- SKELETON FIELD -->
+
+            <Style
+    x:Key="SkeletonField"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#E7EBDF, Dark=#222A1D}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 16" />
+
+            </Style>
+
+
+            <!-- SKELETON BUTTON -->
+
+            <Style
+    x:Key="SkeletonButton"
+    TargetType="Border">
+
+                <Setter
+        Property="BackgroundColor"
+        Value="{AppThemeBinding Light=#DDE4CF, Dark=#2C3524}" />
+
+                <Setter
+        Property="Stroke"
+        Value="Transparent" />
+
+                <Setter
+        Property="StrokeShape"
+        Value="RoundRectangle 15" />
+
+            </Style>
+
+
+            <!-- STOCK SORT BUTTON -->
+
+            <Style
+    x:Key="StockSortButton"
+    TargetType="Button">
+
+                <Setter
+        Property="HeightRequest"
+        Value="38" />
+
+                <Setter
+        Property="CornerRadius"
+        Value="10" />
+
+                <Setter
+        Property="Padding"
+        Value="10,0" />
+
+                <Setter
+        Property="FontSize"
+        Value="12" />
+
+                <Setter
+        Property="BackgroundColor"
+        Value="Transparent" />
+
+                <Setter
+        Property="TextColor"
+        Value="{AppThemeBinding Light=#20251C, Dark=#F4F6EF}" />
+
+            </Style>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+
+</Application>

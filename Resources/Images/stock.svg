@@ -1,0 +1,10 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg"
+     width="24"
+     height="24"
+     viewBox="0 0 24 24">
+
+	<path
+        fill="#718238"
+        d="M3 5.5 12 2l9 3.5v13L12 22l-9-3.5v-13zM12 4 6 6.3 12 8.5l6-2.2L12 4zm-7 4.4v8.7l6 2.3v-8.7l-6-2.3zm8 2.3v8.7l6-2.3V8.4l-6 2.3z"/>
+
+</svg>
